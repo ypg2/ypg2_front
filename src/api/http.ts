@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { getToken, removeToken } from "../store/authStore";
 
 const BASE_URL = "https://some-domain.com";
 const DEFAULT_TIMEOUT = 20000;
@@ -18,14 +19,13 @@ const createDefaultInstance = (config?: AxiosRequestConfig) => {
 const defaultInstance = createDefaultInstance();
 const authInstance = createDefaultInstance({
   headers: {
-    Authorization: accessToken,
-    // 실제 Token 값으로 변경필요
+    Authorization: getToken() ? getToken() : "",
   },
 });
 
 authInstance.interceptors.request.use(
   (config) => {
-    const token = accessToken;
+    const token = getToken();
     config.headers.Authorization = token;
     return config;
   },
@@ -41,6 +41,8 @@ authInstance.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       // 오류 났을때의 대처
+      removeToken();
+      window.location.href = "/login";
       return Promise.reject(error);
     }
   }

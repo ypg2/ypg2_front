@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import Button from "../components/common/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { User } from "../models/user.model";
@@ -13,7 +12,8 @@ export default function Join() {
   } = useForm<User>();
 
   const onSubmit: SubmitHandler<User> = async (data) => {
-    await join(data);
+    const response = await join(data);
+    alert(response.message);
     // 회원가입 완료 및 로그인 페이지 이동
   };
 
@@ -33,16 +33,6 @@ export default function Join() {
         />
         {errors.email && <span>{errors.email.message}</span>}
         <input
-          placeholder="password"
-          {...register("password", {
-            required: { value: true, message: "비밀번호를 입력해주세요." },
-            minLength: { value: 8, message: "최소 8글자입니다." },
-            maxLength: { value: 20, message: "최소 20글자입니다." },
-          })}
-          type="password"
-        />
-        {errors.password && <span>{errors.password.message}</span>}
-        <input
           placeholder="nickname"
           {...register("username", {
             required: { value: true, message: "닉네임을 입력해주세요." },
@@ -52,6 +42,17 @@ export default function Join() {
           type="text"
         />
         {errors.username && errors.username.message}
+        <input
+          placeholder="password"
+          {...register("password", {
+            required: { value: true, message: "비밀번호를 입력해주세요." },
+            minLength: { value: 8, message: "최소 8글자입니다." },
+            maxLength: { value: 20, message: "최소 20글자입니다." },
+          })}
+          type="password"
+        />
+        {errors.password && <span>{errors.password.message}</span>}
+
         <Button size="small" scheme="normal">
           submit
         </Button>

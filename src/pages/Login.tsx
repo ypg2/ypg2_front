@@ -3,6 +3,7 @@ import Button from "../components/common/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../api/auth.api";
 import { User } from "../models/user.model";
+import { setToken } from "../store/authStore";
 
 export default function Login() {
   const {
@@ -12,9 +13,15 @@ export default function Login() {
   } = useForm<User>();
 
   const onSubmit: SubmitHandler<User> = async (data) => {
-    const response = await login(data);
-    const jwt = response.token;
-    //여기서 jwt를 저장(localstorage?)
+    try {
+      const response = await login(data);
+      const { message, jwt } = response;
+      setToken(jwt);
+      alert(message);
+    } catch (error) {
+      //error 핸들링
+      alert("일치하는 회원 정보가 없습니다.");
+    }
   };
 
   return (
