@@ -4,8 +4,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../api/auth.api";
 import { User } from "../models/user.model";
 import { setToken } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigator = useNavigate();
+  const goHome = () => navigator(`/`);
+
   const {
     register,
     handleSubmit,
@@ -18,6 +22,7 @@ export default function Login() {
       const { message, jwt } = response;
       setToken(jwt);
       alert(message);
+      goHome();
     } catch (error) {
       //error 핸들링
       alert("일치하는 회원 정보가 없습니다.");
