@@ -9,7 +9,7 @@ export default function Header() {
   );
 }
 
-const HeaderStyle = styled.footer`
+const HeaderStyle = styled.header`
   width: 100%;
   margin: 0 auto;
   max-width: ${theme.layout.width.large};
