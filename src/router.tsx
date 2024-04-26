@@ -5,6 +5,7 @@ import Layout from "./components/layout/Layout";
 import path from "path";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
+import MyLectures from "./pages/MyLectures";
 
 const routerList = [
   {
@@ -13,6 +14,7 @@ const routerList = [
   },
   { path: "/login", element: <Login /> },
   { path: "/join", element: <Join /> },
+  { path: "/my-lectures", element: <MyLectures /> },
 ];
 
 export const router = createBrowserRouter(
