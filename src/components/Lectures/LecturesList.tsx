@@ -25,10 +25,13 @@ export default function LecturesList({ lectures }: Props) {
       <div className="lectureBox">
         {lectures.map((lecture, i) => (
           <div className="lectureContent" key={i}>
-            <img src={`${lecture.imgURL}/200`} />
+            <img src={`${lecture.imgURL}/200`} alt={`${lecture.title}`} />
             <span className="title">{lecture.title}</span>
             <span className="lecturer">{lecture.lecturer}</span>
             <span className="introduction">{lecture.introduction}</span>
+            <Button scheme="primary" size="small">
+              담기
+            </Button>
           </div>
         ))}
       </div>
@@ -41,11 +44,19 @@ interface LecturesListStyleProps {
 const LecturesListStyle = styled.div<LecturesListStyleProps>`
   display: flex;
   flex-direction: column;
+
+  .grid {
+    display: flex;
+    gap: 10px;
+  }
+
   .lectureBox {
     display: grid;
     grid-template-columns: ${({ view }) =>
       view === "column" ? "repeat(2, 2fr)" : "repeat(4, 1fr)"};
     gap: 24px;
+    margin: 20px 0;
+
     .lectureContent {
       display: flex;
       flex-direction: column;
@@ -53,15 +64,18 @@ const LecturesListStyle = styled.div<LecturesListStyleProps>`
       img {
         border-radius: 20px;
       }
+
       .title {
         margin-top: 10px;
         font-weight: 500;
         font-size: 18px;
       }
+
       .lecturer {
         opacity: 0.5;
         font-size: 14px;
       }
+
       .introduction {
         font-size: 14px;
 
@@ -73,6 +87,5 @@ const LecturesListStyle = styled.div<LecturesListStyleProps>`
         text-overflow: ellipsis;
       }
     }
-    margin: 20px 0;
   }
 `;
