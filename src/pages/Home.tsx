@@ -1,16 +1,19 @@
 import styled from "styled-components";
-import Button from "../components/common/Button";
+import { useLectures } from "../hooks/useLectures";
+import LecturesFiliter from "../components/Lectures/LecturesFilter";
+import LecturesPagination from "../components/Lectures/LecturesPagination";
+import LecturesList from "../components/Lectures/LecturesList";
+import LecturesLimit from "../components/Lectures/LecturesLimit";
 
 export default function Home() {
+  const { lectures, totalSize } = useLectures();
+  console.log(lectures);
   return (
     <HomeStyle>
-      <div>첫페이지</div>
-      <Button size="large" scheme="primary">
-        테스트버튼
-      </Button>
-      <Button size="medium" scheme="normal">
-        테스트버튼
-      </Button>
+      <LecturesFiliter />
+      <LecturesLimit />
+      <LecturesList lectures={lectures} />
+      <LecturesPagination totalSize={totalSize} />
     </HomeStyle>
   );
 }
