@@ -3,7 +3,7 @@ import { authInstance, defaultInstance } from "./http";
 
 const login = async (data: User) => {
   const response = await authInstance.post("/users/log-in", data);
-  const message = response.data;
+  const { message } = response.data;
   const jwt = response.headers["authorization"];
   return { message: message, jwt: jwt };
 };
