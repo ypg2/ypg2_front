@@ -48,6 +48,19 @@ const HeaderStyle = styled.header`
 
   h1 {
     color: ${theme.color.primary};
+
+    .nav {
+      display: flex;
+      gap: 10px;
+      span {
+      }
+    }
+    .auth {
+      display: flex;
+      gap: 10px;
+      span {
+      }
+    }
   }
 
   a {

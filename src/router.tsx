@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import { Error } from "./components/common/Error";
 import Home from "./pages/Home";
 import Layout from "./components/layout/Layout";
-import path from "path";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
 import MyLectures from "./pages/MyLectures";

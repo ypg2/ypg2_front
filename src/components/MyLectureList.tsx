@@ -7,7 +7,6 @@ import { useSelected } from "../hooks/useSelected";
 import { fetchLectureDetail } from "../api/lectures.api";
 import Scheduling from "./Scheduling";
 import { mockLectureData } from "../mock/lecture";
-import Button from "./common/Button";
 
 interface Props {
   onDragStart: (lecture: Lecture) => (event: DragEvent) => void;
@@ -15,18 +14,18 @@ interface Props {
 
 export default function MyLectureList({ onDragStart }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { selectedLectures } = useSelected();
-  const [currentLecture, setCurrentLecture] = useState<Lecture>(
+  const [selectedLecture, setSelectedLecture] = useState<Lecture>(
     mockLectureData[0]
   );
 
   const handleModal = async (id: number) => {
     await fetchLectureDetail(id).then((lecture) => {
       if (lecture) {
-        setCurrentLecture(lecture);
+        setSelectedLecture(lecture);
       }
     });
     setIsOpen(true);
+    setSelectedLecture(mockLectureData[id]);
   };
 
   return (
@@ -34,38 +33,34 @@ export default function MyLectureList({ onDragStart }: Props) {
       <h2>미등록 강의 목록</h2>
       <div className="lecture-list">
         <ul>
-          {selectedLectures.map((selected) => {
+          {mockLectureData.map((lecture) => {
             return (
-              <li onClick={() => handleModal(selected.lectureID)}>
-                {selected.title}
+              <li onClick={() => handleModal(lecture.lectureID)}>
+                {lecture.title}
               </li>
             );
           })}
         </ul>
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <LectureInfoStyle>
-          <h2>강의 상세 정보</h2>
+        <div className="lecture-detail">
           <table>
-            <thead>
-              <th className="info-header">강의명</th>
-              <th className="info-header">강사</th>
-              <th className="info-header">강의 소개</th>
-              <th className="info-header">바로가기</th>
-            </thead>
             <tbody>
-              <td className="info-body">{currentLecture?.title}</td>
-              <td className="info-body nowrap">{currentLecture?.lecturer}</td>
-              <td className="info-body">{currentLecture?.introduction}</td>
-              <td>
-                <Button size="small" scheme="normal" className="nowrap">
-                  상세페이지로
-                </Button>
-              </td>
+              <tr>
+                <th>강의명</th>
+                <td>{selectedLecture.title}</td>
+              </tr>
+              <tr>
+                <th>강사</th>
+                <td>{selectedLecture.lecturer}</td>
+              </tr>
+              <tr>
+                <th>강의 소개</th>
+                <td>{selectedLecture.introduction}</td>
+              </tr>
             </tbody>
           </table>
-        </LectureInfoStyle>
-        <Scheduling lecture={currentLecture} />
+        </div>
       </Modal>
     </MyLectureListStyle>
   );
