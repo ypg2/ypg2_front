@@ -1,7 +1,7 @@
 export interface Lecture {
-  id: number;
+  lectureID: number;
+  imgURL: string;
   title: string;
   lecturer: string;
   introduction: string;
-  img_url: string;
 }

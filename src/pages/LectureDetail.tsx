@@ -17,13 +17,13 @@ export default function LectureDetail({ id }: Props) {
       <header className="header">
         <div className="img">
           <img
-            src={lecture.img_url}
+            src={lecture.imgURL}
             alt={lecture.title}
             onClick={() => setIsImgOpen(true)}
           />
         </div>
         <Modal isOpen={isImgOpen} onClose={() => setIsImgOpen(false)}>
-          <img src={lecture.img_url} alt={lecture.title} />
+          <img src={lecture.imgURL} alt={lecture.title} />
         </Modal>
         <div className="info">
           <h1>{lecture.title}</h1>

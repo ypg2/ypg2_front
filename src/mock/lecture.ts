@@ -5,11 +5,11 @@ import { BASE_URL } from "../api/http";
 
 export const mockLectureData: Lecture[] = Array.from({ length: 50 }).map(
   (_, idx) => ({
-    id: idx,
+    lectureID: idx,
     title: faker.lorem.words(),
     lecturer: `${faker.person.lastName()}${faker.person.firstName()}`,
     introduction: faker.lorem.paragraph(),
-    img_url: `https://picsum.photos/id/${idx}/600/600`,
+    imgURL: `https://picsum.photos/id/${idx}/600/600`,
   })
 );
 
