@@ -2,6 +2,10 @@ import styled from "styled-components";
 import { Lecture } from "../../models/lecture.model";
 import { useState } from "react";
 import Button from "../common/Button";
+import { useAuthStore } from "../../store/authStore";
+import { fetchDeleteSelected, fetchPostSelected } from "../../api/selected.api";
+import { useSelected } from "../../hooks/useSelected";
+import { LecturesBtn } from "./LecturesBtn";
 
 interface Props {
   lectures: Lecture[];
@@ -10,7 +14,34 @@ interface Props {
 type ViewMode = "column" | "row";
 
 export default function LecturesList({ lectures }: Props) {
+  const { isLoggedIn } = useAuthStore();
   const [view, setView] = useState<ViewMode>("column");
+  const { selectedLectures, isSelected } = useSelected();
+
+  const handleSelect = async (lectureID: number) => {
+    if (!isLoggedIn) {
+      const userResponse = window.confirm("로그인 페이지로 이동하시겠습니까?");
+      if (userResponse) {
+        window.location.href = "/login";
+      }
+      return;
+    }
+
+    const result = await fetchPostSelected(lectureID);
+    window.alert(result.message);
+  };
+
+  const handleGetSelected = () => {
+    console.log(selectedLectures);
+  };
+
+  const handleDelete = async (id: number) => {
+    const userResponse = window.confirm("내 강의에서 삭제하시겠습니까?");
+    if (userResponse) {
+      const result = await fetchDeleteSelected(id);
+      window.alert(result.message);
+    }
+  };
 
   return (
     <LecturesListStyle view={view}>
@@ -21,17 +52,30 @@ export default function LecturesList({ lectures }: Props) {
         <Button scheme="like" size="small" onClick={() => setView("row")}>
           4줄
         </Button>
+        <Button
+          scheme="normal"
+          size="small"
+          onClick={() => handleGetSelected()}
+        >
+          GetSelected테스트용입니다
+        </Button>
       </div>
+
       <div className="lectureBox">
         {lectures.map((lecture, i) => (
           <div className="lectureContent" key={i}>
-            <img src={`${lecture.imgURL}/200`} alt={`${lecture.title}`} />
-            <span className="title">{lecture.title}</span>
+            {/* https://picsum.photos/id/1 */}
+            <img src={`${lecture.imgURL}/300`} alt={`${lecture.title}`} />
+            <h2 className="title">{lecture.title}</h2>
             <span className="lecturer">{lecture.lecturer}</span>
+            <LecturesBtn
+              lecture={lecture}
+              isLoggedIn={isLoggedIn}
+              isSelected={isSelected}
+              onAdd={handleSelect}
+              onDelete={handleDelete}
+            />
             <span className="introduction">{lecture.introduction}</span>
-            <Button scheme="primary" size="small">
-              담기
-            </Button>
           </div>
         ))}
       </div>
@@ -62,22 +106,25 @@ const LecturesListStyle = styled.div<LecturesListStyleProps>`
       flex-direction: column;
       align-items: flex-start;
       img {
+        width: 100%;
         border-radius: 20px;
       }
 
       .title {
         margin-top: 10px;
-        font-weight: 500;
-        font-size: 18px;
+        margin-bottom: 10px;
+        padding: 0;
+        /* font-weight: 500; */
+        /* font-size: 18px; */
       }
 
       .lecturer {
         opacity: 0.5;
-        font-size: 14px;
+        /* font-size: 14px; */
       }
 
       .introduction {
-        font-size: 14px;
+        /* font-size: 14px; */
 
         display: -webkit-box;
         -webkit-line-clamp: 2;
