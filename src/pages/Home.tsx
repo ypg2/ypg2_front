@@ -18,4 +18,8 @@ export default function Home() {
   );
 }
 
-const HomeStyle = styled.div``;
+const HomeStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;

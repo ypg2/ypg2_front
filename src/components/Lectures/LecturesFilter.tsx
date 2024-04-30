@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { QUERYSTRING } from "../../constants/querystring";
 import Button from "../common/Button";
@@ -28,7 +29,7 @@ export default function LecturesFiliter() {
   };
 
   return (
-    <div className="categoryNav">
+    <LecturesFiliterStyle>
       {categoryNameArr.map((categoryName, i) => (
         <Button
           key={i}
@@ -39,6 +40,11 @@ export default function LecturesFiliter() {
           {categoryName}
         </Button>
       ))}
-    </div>
+    </LecturesFiliterStyle>
   );
 }
+
+const LecturesFiliterStyle = styled.div`
+  display: flex;
+  gap: 10px;
+`;

@@ -3,6 +3,8 @@ import { QUERYSTRING } from "../../constants/querystring";
 import Button from "../common/Button";
 import { useEffect, useState } from "react";
 import { formatSlicePagination } from "../../utils/format";
+import styled from "styled-components";
+import { GoTriangleLeft, GoTriangleRight } from "react-icons/go";
 
 interface IPagination {
   totalSize: number;
@@ -35,6 +37,10 @@ export default function LecturesPagination({ totalSize }: IPagination) {
 
   const slicedPaginationArr = formatSlicePagination(sliceStart, paginationArr);
 
+  const isCurrentPage = (pagination: number) => {
+    return pagination.toString() === searchParams.get(QUERYSTRING.PAGE);
+  };
+
   useEffect(() => {
     const currentLimit = queryStringLimit === null ? "4" : queryStringLimit;
     setLimit(currentLimit);
@@ -42,23 +48,28 @@ export default function LecturesPagination({ totalSize }: IPagination) {
   }, [queryStringLimit]);
 
   return (
-    <div className="pagenation">
+    <LecturesPaginationStyle>
       <Button scheme="normal" size="small" onClick={handleClickBack}>
-        뒤
+        <GoTriangleLeft />
       </Button>
       {slicedPaginationArr.map((pagenation, _i) => (
         <Button
           key={_i}
           size="small"
-          scheme="primary"
+          scheme={isCurrentPage(pagenation) ? "primary" : "normal"}
           onClick={() => handleClickPagenation(_i + sliceStart + 1)}
         >
           {pagenation}
         </Button>
       ))}
       <Button scheme="normal" size="small" onClick={handleClickFront}>
-        앞
+        <GoTriangleRight />
       </Button>
-    </div>
+    </LecturesPaginationStyle>
   );
 }
+
+const LecturesPaginationStyle = styled.div`
+  display: flex;
+  gap: 5px;
+`;

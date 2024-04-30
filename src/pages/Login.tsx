@@ -3,12 +3,13 @@ import Button from "../components/common/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../api/auth.api";
 import { User } from "../models/user.model";
-import { setToken } from "../store/authStore";
+import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigator = useNavigate();
   const goHome = () => navigator(`/`);
+  const { storeLogin } = useAuthStore();
 
   const {
     register,
@@ -20,7 +21,7 @@ export default function Login() {
     try {
       const response = await login(data);
       const { message, jwt } = response;
-      setToken(jwt);
+      storeLogin(jwt);
       alert(message);
       goHome();
     } catch (error) {

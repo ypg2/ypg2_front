@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import Button from "../common/Button";
 
@@ -14,7 +15,7 @@ export default function LecturesLimit() {
   };
 
   return (
-    <div className="limit">
+    <LecturesLimitStyle>
       {limitPointArr.map((limitPoint, i) => (
         <Button
           key={i}
@@ -25,6 +26,11 @@ export default function LecturesLimit() {
           {limitPoint}개씩
         </Button>
       ))}
-    </div>
+    </LecturesLimitStyle>
   );
 }
+
+const LecturesLimitStyle = styled.div`
+  display: flex;
+  gap: 10px;
+`;
