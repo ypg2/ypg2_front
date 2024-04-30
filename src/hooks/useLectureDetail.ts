@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchLectureDetail } from "../api/lectures.api";
+import { fetchLectureDetail } from "../api/lecture.api";
 import { Lecture } from "../models/lecture.model";
 
 export default function useLectureDetail(id: number) {
