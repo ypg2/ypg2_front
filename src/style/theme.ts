@@ -87,7 +87,7 @@ export const theme: Theme = {
     },
   },
   borderRadius: {
-    default: "4px",
+    default: "10px",
   },
   layout: {
     width: {

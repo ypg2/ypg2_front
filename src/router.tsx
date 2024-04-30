@@ -6,6 +6,7 @@ import path from "path";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
 import MyLectures from "./pages/MyLectures";
+import LectureDetail from "./pages/LectureDetail";
 
 const routerList = [
   {
@@ -15,6 +16,7 @@ const routerList = [
   { path: "/login", element: <Login /> },
   { path: "/join", element: <Join /> },
   { path: "/my-lectures", element: <MyLectures /> },
+  { path: "/lectures/:id", element: <LectureDetail /> },
 ];
 
 export const router = createBrowserRouter(

@@ -1,23 +1,24 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Modal } from "../components/common/Modal";
-import Button from "../components/common/Button";
 import useLectureDetail from "../hooks/useLectureDetail";
+import { useParams } from "react-router-dom";
+import { Loading } from "../components/common/Loading";
+import { LecturesBtn } from "../components/Lectures/LecturesBtn";
 
-interface Props {
-  id: number;
-}
-
-export default function LectureDetail({ id }: Props) {
-  const { lecture } = useLectureDetail(id);
+export default function LectureDetail() {
+  const { id } = useParams();
+  const { lecture } = useLectureDetail(Number(id));
   const [isImgOpen, setIsImgOpen] = useState(false);
 
-  return (
+  return !lecture ? (
+    <Loading />
+  ) : (
     <LectureDetailStyle>
       <header className="header">
         <div className="img">
           <img
-            src={lecture.imgURL}
+            src={`${lecture.imgURL}/300`}
             alt={lecture.title}
             onClick={() => setIsImgOpen(true)}
           />
@@ -28,9 +29,7 @@ export default function LectureDetail({ id }: Props) {
         <div className="info">
           <h1>{lecture.title}</h1>
           <p className="lecturer">{lecture.lecturer} 강사님</p>
-          <Button size="medium" scheme="primary">
-            내 강의에 담기
-          </Button>
+          <LecturesBtn lecture={lecture} />
         </div>
       </header>
       <div className="content">{lecture.introduction}</div>
