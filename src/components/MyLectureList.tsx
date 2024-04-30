@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { theme } from "../style/theme";
 import { Modal } from "./common/Modal";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Lecture } from "../models/lecture.model";
 import { useSelected } from "../hooks/useSelected";
 import { fetchLectureDetail } from "../api/lectures.api";
@@ -9,10 +9,10 @@ import Scheduling from "./Scheduling";
 import { mockLectureData } from "../mock/lecture";
 
 interface Props {
-  onDragStart: (lecture: Lecture) => (event: DragEvent) => void;
+  onDragStart: (event: DragEvent) => void;
 }
 
-export default function MyLectureList({ onDragStart }: Props) {
+export default function MyLectureList({ onDragStart }: any) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedLecture, setSelectedLecture] = useState<Lecture>(
     mockLectureData[0]
@@ -35,7 +35,12 @@ export default function MyLectureList({ onDragStart }: Props) {
         <ul>
           {mockLectureData.map((lecture) => {
             return (
-              <li onClick={() => handleModal(lecture.lectureID)}>
+              <li
+                key={_i}
+                onClick={() => handleModal(lecture.lectureID)}
+                draggable
+                onDragStart={onDragStart(lecture)}
+              >
                 {lecture.title}
               </li>
             );

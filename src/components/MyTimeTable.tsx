@@ -1,30 +1,25 @@
 import styled from "styled-components";
 import { theme } from "../style/theme";
+import { DragEvent } from "react";
 
 type Schedule = {
   [day: string]: string[];
 };
 
 interface Props {
-  onDragOver: (event: DragEvent) => void;
-  onDrop: () => (event: DragEvent) => void;
+  onDragOver: (event: DragEvent<HTMLTableCellElement>) => void;
+  onDrop: (event: DragEvent<HTMLTableCellElement>) => void;
 }
 
-export default function MyTimeTable({ onDragOver, onDrop }: Props) {
+export default function MyTimeTable({ onDragOver, onDrop }: any) {
   const days = ["월", "화", "수", "목", "금", "토", "일"];
   const schedule: Schedule = days.reduce((acc, day) => {
     acc[day] = Array(18).fill("");
     return acc;
   }, {} as Schedule);
 
-  const hours = Array.from({ length: 18 }, (_, i) => 6 + i);
-
-  schedule["월"][0] =
-    "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라";
-  schedule["화"][1] =
-    "자바와 스프링 부트로 생애 최초 서버 만들기, 누구나 쉽게 개발부터 배포까지! [서버 개발 올인원 패키지]";
-  schedule["수"][5] = "헌법에 소추되지 형사피고인은";
-  schedule["금"][3] = "웹 프로그래밍 실습";
+  const hours = Array.from({ length: 18 }, (_, i) => String(6 + i));
+  const dropHandler = onDrop();
 
   return (
     <MyTimeTableStyle>
@@ -45,7 +40,12 @@ export default function MyTimeTable({ onDragOver, onDrop }: Props) {
                 <b>{`${hour}:00`}</b>
               </td>
               {days.map((day) => (
-                <td key={day + index}>
+                <td
+                  key={day + index}
+                  draggable
+                  onDragOver={onDragOver}
+                  onDrop={dropHandler}
+                >
                   <p>{schedule[day][index]}</p>
                 </td>
               ))}

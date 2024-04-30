@@ -1,23 +1,26 @@
 import styled from "styled-components";
 import MyLectureList from "../components/MyLectureList";
 import MyTimeTable from "../components/MyTimeTable";
-import { useState } from "react";
 import { Lecture } from "../models/lecture.model";
+import { useState } from "react";
 
 export default function MyLectures() {
   const [draggedItem, setDraggedItem] = useState<Lecture | null>(null);
 
-  const handleDragStart = (lecture: Lecture) => (event: DragEvent) => {
-    setDraggedItem(lecture);
-    event.dataTransfer?.setData("text/plain", String(lecture.lectureID));
-  };
+  const handleDragStart =
+    (lecture: Lecture) => (event: React.DragEvent<HTMLLIElement>) => {
+      setDraggedItem(lecture);
+      event.dataTransfer?.setData("text/plain", String(lecture.lectureID));
+    };
 
-  const handleDragOver = (event: DragEvent) => {
+  const handleDragOver = (event: React.DragEvent<HTMLTableCellElement>) => {
     event.preventDefault(); // 드롭 가능 영역으로 설정
   };
 
-  const handleDrop = () => (event: DragEvent) => {
-    event.preventDefault();
+  const handleDrop = () => (event: React.DragEvent<HTMLTableCellElement>) => {
+    //여기로 가는 구나
+    /*
+    
     if (event.dataTransfer) {
       const droppedLectureId = event.dataTransfer.getData("text/plain");
       if (droppedLectureId && draggedItem) {
@@ -25,6 +28,7 @@ export default function MyLectures() {
         // 예: 해당 timeSlot에 드래그된 강의 정보를 할당
       }
     }
+    */
   };
 
   return (
