@@ -14,6 +14,7 @@ export default function LecturesPagination({ totalSize }: IPagination) {
   const [sliceStart, setSliceStart] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const [limit, setLimit] = useState<string | null>("4");
+  const [currentPage, setCurrentPage] = useState(1);
   const queryStringLimit = searchParams.get(QUERYSTRING.LIMIT);
 
   const handleClickPagenation = (i: number) => {
@@ -37,15 +38,19 @@ export default function LecturesPagination({ totalSize }: IPagination) {
 
   const slicedPaginationArr = formatSlicePagination(sliceStart, paginationArr);
 
-  const isCurrentPage = (pagination: number) => {
-    return pagination.toString() === searchParams.get(QUERYSTRING.PAGE);
-  };
-
   useEffect(() => {
     const currentLimit = queryStringLimit === null ? "4" : queryStringLimit;
     setLimit(currentLimit);
     setSliceStart(0);
   }, [queryStringLimit]);
+
+  useEffect(() => {
+    if (searchParams.get(QUERYSTRING.PAGE)) {
+      setCurrentPage(Number(searchParams.get(QUERYSTRING.PAGE)));
+    } else {
+      setCurrentPage(1);
+    }
+  }, [searchParams.get(QUERYSTRING.PAGE)]);
 
   return (
     <LecturesPaginationStyle>
@@ -56,7 +61,7 @@ export default function LecturesPagination({ totalSize }: IPagination) {
         <Button
           key={_i}
           size="small"
-          scheme={isCurrentPage(pagenation) ? "primary" : "normal"}
+          scheme={currentPage === pagenation ? "primary" : "normal"}
           onClick={() => handleClickPagenation(_i + sliceStart + 1)}
         >
           {pagenation}

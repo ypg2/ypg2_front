@@ -70,11 +70,11 @@ const MyTimeTableStyle = styled.div`
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
+    border-style: none;
   }
   th,
   td {
     border: 1px solid ${theme.color.border};
-    border-radius: ${theme.borderRadius.default};
     text-align: center;
     padding: 7px;
 
