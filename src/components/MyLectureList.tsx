@@ -1,9 +1,13 @@
 import styled from "styled-components";
-import { mockLectureData } from "../mock/lecture";
 import { theme } from "../style/theme";
 import { Modal } from "./common/Modal";
 import { useState } from "react";
 import { Lecture } from "../models/lecture.model";
+import { useSelected } from "../hooks/useSelected";
+import { fetchLectureDetail } from "../api/lectures.api";
+import Scheduling from "./Scheduling";
+import { mockLectureData } from "../mock/lecture";
+import Button from "./common/Button";
 
 interface Props {
   onDragStart: (lecture: Lecture) => (event: DragEvent) => void;
@@ -11,13 +15,18 @@ interface Props {
 
 export default function MyLectureList({ onDragStart }: Props) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedLecture, setSelectedLecture] = useState<Lecture>(
+  const { selectedLectures } = useSelected();
+  const [currentLecture, setCurrentLecture] = useState<Lecture>(
     mockLectureData[0]
   );
 
-  const handleModal = (id: number) => {
+  const handleModal = async (id: number) => {
+    await fetchLectureDetail(id).then((lecture) => {
+      if (lecture) {
+        setCurrentLecture(lecture);
+      }
+    });
     setIsOpen(true);
-    setSelectedLecture(mockLectureData[id]);
   };
 
   return (
@@ -25,34 +34,38 @@ export default function MyLectureList({ onDragStart }: Props) {
       <h2>미등록 강의 목록</h2>
       <div className="lecture-list">
         <ul>
-          {mockLectureData.map((lecture) => {
+          {selectedLectures.map((selected) => {
             return (
-              <li onClick={() => handleModal(lecture.lectureID)}>
-                {lecture.title}
+              <li onClick={() => handleModal(selected.lectureID)}>
+                {selected.title}
               </li>
             );
           })}
         </ul>
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <div className="lecture-detail">
+        <LectureInfoStyle>
+          <h2>강의 상세 정보</h2>
           <table>
+            <thead>
+              <th className="info-header">강의명</th>
+              <th className="info-header">강사</th>
+              <th className="info-header">강의 소개</th>
+              <th className="info-header">바로가기</th>
+            </thead>
             <tbody>
-              <tr>
-                <th>강의명</th>
-                <td>{selectedLecture.title}</td>
-              </tr>
-              <tr>
-                <th>강사</th>
-                <td>{selectedLecture.lecturer}</td>
-              </tr>
-              <tr>
-                <th>강의 소개</th>
-                <td>{selectedLecture.introduction}</td>
-              </tr>
+              <td className="info-body">{currentLecture?.title}</td>
+              <td className="info-body nowrap">{currentLecture?.lecturer}</td>
+              <td className="info-body">{currentLecture?.introduction}</td>
+              <td>
+                <Button size="small" scheme="normal" className="nowrap">
+                  상세페이지로
+                </Button>
+              </td>
             </tbody>
           </table>
-        </div>
+        </LectureInfoStyle>
+        <Scheduling lecture={currentLecture} />
       </Modal>
     </MyLectureListStyle>
   );
@@ -87,6 +100,7 @@ const MyLectureListStyle = styled.div`
         border-radius: ${theme.borderRadius.default};
         background-color: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
 
         &:first-child {
           margin-top: 0;
@@ -97,5 +111,21 @@ const MyLectureListStyle = styled.div`
         }
       }
     }
+  }
+`;
+
+const LectureInfoStyle = styled.div`
+  .info-header {
+    white-space: nowrap;
+    text-align: left;
+    padding: 10px;
+  }
+
+  .info-body {
+    padding: 10px;
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 `;
