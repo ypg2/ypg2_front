@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { theme } from "../style/theme";
-import { DragEvent } from "react";
+import { DragEvent, useEffect, useState } from "react";
+import { formatScheduled } from "../utils/format";
+import { mock } from "../mock/schedule";
 
 type Schedule = {
   [day: string]: string[];
@@ -17,9 +19,26 @@ export default function MyTimeTable({ onDragOver, onDrop }: any) {
     acc[day] = Array(18).fill("");
     return acc;
   }, {} as Schedule);
-
   const hours = Array.from({ length: 18 }, (_, i) => String(6 + i));
   const dropHandler = onDrop();
+
+  // merge는 css로 하고
+  // 데이터를 넣는 과정은
+  const [scheduled, setScheduled] = useState<Schedule>(schedule);
+
+  useEffect(() => {
+    let scheduledLectures = mock;
+    // 이부분을 실제 데이터를 가져오는 함수로 변경해야함
+    let formattedScheduledLectures = formatScheduled(scheduledLectures);
+
+    setScheduled((current) => {
+      formattedScheduledLectures.forEach((lecture) => {
+        current[lecture.weekDay][lecture.endHour - 6] = lecture.title;
+      });
+      // model바뀌면 days[lecture.weekIndex]로 변경하면됨
+      return current;
+    });
+  }, []);
 
   return (
     <MyTimeTableStyle>
@@ -46,7 +65,7 @@ export default function MyTimeTable({ onDragOver, onDrop }: any) {
                   onDragOver={onDragOver}
                   onDrop={dropHandler}
                 >
-                  <p>{schedule[day][index]}</p>
+                  <p>{scheduled[day][index]}</p>
                 </td>
               ))}
             </tr>

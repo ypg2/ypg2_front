@@ -8,9 +8,8 @@ export default function MyLectures() {
   const [draggedItem, setDraggedItem] = useState<Lecture | null>(null);
 
   const handleDragStart =
-    (lecture: Lecture) => (event: React.DragEvent<HTMLLIElement>) => {
-      setDraggedItem(lecture);
-      event.dataTransfer?.setData("text/plain", String(lecture.lectureID));
+    (title: string) => (event: React.DragEvent<HTMLLIElement>) => {
+      event.dataTransfer?.setData("text/plain", title);
     };
 
   const handleDragOver = (event: React.DragEvent<HTMLTableCellElement>) => {
@@ -18,17 +17,9 @@ export default function MyLectures() {
   };
 
   const handleDrop = () => (event: React.DragEvent<HTMLTableCellElement>) => {
-    //여기로 가는 구나
-    /*
-    
-    if (event.dataTransfer) {
-      const droppedLectureId = event.dataTransfer.getData("text/plain");
-      if (droppedLectureId && draggedItem) {
-        // 드롭 로직을 구현합니다.
-        // 예: 해당 timeSlot에 드래그된 강의 정보를 할당
-      }
-    }
-    */
+    const title = event.dataTransfer.getData("text/plain");
+    console.dir(event.target);
+    // 이제 이걸 넣어주어야함
   };
 
   return (
@@ -37,8 +28,12 @@ export default function MyLectures() {
         <p>왼쪽의 강의 목록을 오른쪽에 드래그해 시간을 설정하세요.</p>
       </div>
       <div className="tables">
-        <MyLectureList onDragStart={handleDragStart} />
-        <MyTimeTable onDragOver={handleDragOver} onDrop={handleDrop} />
+        <MyLectureList />
+        <MyTimeTable
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        />
       </div>
     </MyLecturesStyle>
   );
