@@ -3,6 +3,7 @@ import { Lecture } from "../../models/lecture.model";
 import Button from "../common/Button";
 import { useAuthStore } from "../../store/authStore";
 import { useSelected } from "../../hooks/useSelected";
+import { useSchedules } from "../../hooks/useSchedules";
 
 interface Props {
   lecture: Lecture;
@@ -10,15 +11,13 @@ interface Props {
 
 export const LecturesBtn = React.memo(({ lecture }: Props) => {
   const { isLoggedIn } = useAuthStore();
-  const { isSelected, addSelected, deleteSelected } = useSelected();
+  const { isSelected, addSelected } = useSelected();
+  const { isScheduled } = useSchedules();
 
-  return isLoggedIn && isSelected(lecture.lectureID) ? (
-    <Button
-      scheme="normal"
-      size="medium"
-      onClick={() => deleteSelected(lecture.lectureID)}
-    >
-      내 강의에서 삭제
+  return isLoggedIn &&
+    (isSelected(lecture.lectureID) || isScheduled(lecture.lectureID)) ? (
+    <Button scheme="normal" size="medium" disabled>
+      내 강의
     </Button>
   ) : (
     <Button

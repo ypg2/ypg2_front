@@ -17,7 +17,7 @@ interface Props {
 export default function MyLectureList() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { selectedLectures } = useSelected();
+  const { selectedLectures, deleteSelected } = useSelected();
   const [currentLecture, setCurrentLecture] = useState<Lecture>(
     mockLectureData[0]
   );
@@ -29,6 +29,11 @@ export default function MyLectureList() {
       }
     });
     setIsOpen(true);
+  };
+
+  const handleDelete = (id: number) => {
+    deleteSelected(id);
+    setIsOpen(false);
   };
 
   return (
@@ -79,6 +84,15 @@ export default function MyLectureList() {
           </table>
         </LectureInfoStyle>
         <Scheduling lecture={currentLecture} onClose={() => setIsOpen(false)} />
+        <DeleteBtnStyle>
+          <Button
+            size="medium"
+            scheme="primary"
+            onClick={() => handleDelete(currentLecture.lectureID)}
+          >
+            내 강의에서 삭제
+          </Button>
+        </DeleteBtnStyle>
       </Modal>
     </MyLectureListStyle>
   );
@@ -141,4 +155,9 @@ const LectureInfoStyle = styled.div`
   .nowrap {
     white-space: nowrap;
   }
+`;
+
+const DeleteBtnStyle = styled.div`
+  margin: 40px 0;
+  text-align: center;
 `;

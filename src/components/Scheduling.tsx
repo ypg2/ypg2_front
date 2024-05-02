@@ -50,10 +50,6 @@ export default function Scheduling({ lecture, onClose }: Props) {
     });
   };
 
-  const testGetScheduled = () => {
-    fetchGetScheduled().then((value) => console.log(value));
-  };
-
   return (
     <SchedulingStyle>
       <h2>내 시간표에 등록</h2>
@@ -85,9 +81,6 @@ export default function Scheduling({ lecture, onClose }: Props) {
         <Button size="medium" scheme="primary" onClick={handleAdd}>
           등록
         </Button>
-      </div>
-      <div>
-        <button onClick={testGetScheduled}>GET</button>
       </div>
     </SchedulingStyle>
   );

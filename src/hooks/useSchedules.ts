@@ -6,6 +6,10 @@ export const useSchedules = () => {
   const [scheduledLectures, setScheduledLectures] =
     useState<ScheduledLectureFormat[]>();
 
+  const isScheduled = (id: number) => {
+    return scheduledLectures?.some((lecture) => lecture.lectureID === id);
+  };
+
   useEffect(() => {
     const handleScheduledLectures = async () => {
       const response = await fetchScheduledLectures();
@@ -20,5 +24,5 @@ export const useSchedules = () => {
     handleScheduledLectures();
   }, []);
 
-  return { scheduledLectures };
+  return { scheduledLectures, isScheduled };
 };
