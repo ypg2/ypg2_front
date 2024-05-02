@@ -5,5 +5,5 @@ export interface ScheduledLecture {
   weekDayID: number;
   startAt: string;
   endAt: string;
-  title?: string;
+  title: string;
 }

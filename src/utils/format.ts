@@ -1,4 +1,4 @@
-import { ScheduledLecture } from "../models/schduled.model";
+import { ScheduledLecture } from "../models/scheduled.model";
 
 export const formatSlicePagination = (
   sliceStart: number,
@@ -7,7 +7,7 @@ export const formatSlicePagination = (
   return paginationArr.slice(sliceStart, sliceStart + 5);
 };
 
-interface ScheduledLectureFormat extends ScheduledLecture {
+export interface ScheduledLectureFormat extends ScheduledLecture {
   startHour: number;
   startMinutes: number;
   endHour: number;
@@ -16,7 +16,7 @@ interface ScheduledLectureFormat extends ScheduledLecture {
 
 export const formatScheduled = (scheduledLectures: ScheduledLecture[]) => {
   const formmatedScheduledLectures: ScheduledLectureFormat[] =
-    scheduledLectures.map((scheduledLecture) => ({
+    scheduledLectures?.map((scheduledLecture) => ({
       ...scheduledLecture,
       startHour: parseInt(scheduledLecture.startAt.split(":")[0]),
       startMinutes: parseInt(scheduledLecture.startAt.split(":")[1]),

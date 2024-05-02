@@ -10,6 +10,7 @@ export default function MyLectures() {
   const handleDragStart =
     (title: string) => (event: React.DragEvent<HTMLLIElement>) => {
       event.dataTransfer?.setData("text/plain", title);
+      console.log(title);
     };
 
   const handleDragOver = (event: React.DragEvent<HTMLTableCellElement>) => {
@@ -18,8 +19,6 @@ export default function MyLectures() {
 
   const handleDrop = () => (event: React.DragEvent<HTMLTableCellElement>) => {
     const title = event.dataTransfer.getData("text/plain");
-    console.dir(event.target);
-    // 이제 이걸 넣어주어야함
   };
 
   return (
