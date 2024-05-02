@@ -14,7 +14,7 @@ export const useSelected = () => {
   );
 
   const isSelected = (lectureID: number) => {
-    return selectedLectures.some((lecture) => lecture.lectureID === lectureID);
+    return selectedLectures?.some((lecture) => lecture.lectureID === lectureID);
   };
 
   const addSelected = async (lectureID: number) => {

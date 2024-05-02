@@ -19,25 +19,35 @@ export default function Scheduling({ lecture, onClose }: Props) {
   const [endTime, setEndTime] = useState("06:30");
   const startTimeOptions = generateTimeOptions(6, 23.5);
   const endTimeOptions = generateTimeOptions(6.5, 24);
-  console.log(lecture);
+
+  //   console.log(lecture);
+
   const handleAdd = () => {
+    const baseDate = "2000-01-01";
+    const startDateTime = new Date(`${baseDate}T${startTime}:00`);
+    const endDateTime = new Date(`${baseDate}T${endTime}:00`);
+    if (startDateTime >= endDateTime) {
+      alert("끝나는 시간은 시작 시간보다 늦어야 합니다.");
+      return;
+    }
+
     selectedLectures.forEach((item) => {
       if (item.lectureID === lecture.lectureID) {
         const data: ScheduledLecture = {
+          lectureID: item.lectureID,
           selectedLectureID: item.selectedLectureID,
           weekDayID: day,
           startAt: startTime,
           endAt: endTime,
           title: item.title,
         };
-        fetchAddScheduled(data).then((value) => onClose());
+        fetchAddScheduled(data).then((message) => {
+          alert(message);
+          onClose();
+        });
         // 여기서 추가한 후 캐싱을 하면 useScheduled는 캐싱된 데이터를 받아오면됨
       }
     });
-  };
-
-  const testGetScheduled = () => {
-    fetchGetScheduled().then((value) => console.log(value));
   };
 
   return (
@@ -71,9 +81,6 @@ export default function Scheduling({ lecture, onClose }: Props) {
         <Button size="medium" scheme="primary" onClick={handleAdd}>
           등록
         </Button>
-      </div>
-      <div>
-        <button onClick={testGetScheduled}>GET</button>
       </div>
     </SchedulingStyle>
   );

@@ -1,11 +1,12 @@
 import { authInstance } from "./http";
 
 export const fetchGetSelected = async () => {
-  const response = await authInstance.get(`/selected-lectures`);
-  if (response) {
+  try {
+    const response = await authInstance.get(`/selected-lectures`);
     return response.data.data;
+  } catch (error) {
+    return [];
   }
-  return [];
 };
 
 export const fetchPostSelected = async (id: number) => {

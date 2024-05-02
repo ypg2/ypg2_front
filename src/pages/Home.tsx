@@ -7,7 +7,7 @@ import LecturesLimit from "../components/Lectures/LecturesLimit";
 
 export default function Home() {
   const { lectures, totalSize } = useLectures();
-  console.log(lectures);
+  //   console.log(lectures);
   return (
     <HomeStyle>
       <LecturesFiliter />

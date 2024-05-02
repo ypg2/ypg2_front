@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { Lecture } from "../../models/lecture.model";
 import { useState } from "react";
 import Button from "../common/Button";
-import { useAuthStore } from "../../store/authStore";
-import { fetchDeleteSelected, fetchPostSelected } from "../../api/selected.api";
-import { useSelected } from "../../hooks/useSelected";
 import { LecturesBtn } from "./LecturesBtn";
 import { useNavigate } from "react-router-dom";
 import { theme } from "../../style/theme";
@@ -18,7 +15,6 @@ type ViewMode = "column" | "row";
 export default function LecturesList({ lectures }: Props) {
   const navigate = useNavigate();
   const [view, setView] = useState<ViewMode>("column");
-  const { selectedLectures } = useSelected();
 
   return (
     <LecturesListStyle view={view}>
