@@ -8,13 +8,14 @@ import { fetchLectureDetail } from "../api/lecture.api";
 import Scheduling from "./Scheduling";
 import { mockLectureData } from "../mock/lecture";
 import Button from "./common/Button";
-import { fa } from "@faker-js/faker";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   onDragStart: (lecture: Lecture) => (event: DragEvent) => void;
 }
 
 export default function MyLectureList() {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { selectedLectures } = useSelected();
   const [currentLecture, setCurrentLecture] = useState<Lecture>(
@@ -35,13 +36,17 @@ export default function MyLectureList() {
       <h2>미등록 강의 목록</h2>
       <div className="lecture-list">
         <ul>
-          {selectedLectures.map((selected, i) => {
-            return (
-              <li onClick={() => handleModal(selected.lectureID)} key={i}>
-                {selected.title}
-              </li>
-            );
-          })}
+          {selectedLectures ? (
+            selectedLectures.map((selected, i) => {
+              return (
+                <li onClick={() => handleModal(selected.lectureID)} key={i}>
+                  {selected.title}
+                </li>
+              );
+            })
+          ) : (
+            <li>시간표에 등록하지 않은 강의가 없습니다.</li>
+          )}
         </ul>
       </div>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
@@ -59,7 +64,14 @@ export default function MyLectureList() {
               <td className="info-body nowrap">{currentLecture?.lecturer}</td>
               <td className="info-body">{currentLecture?.introduction}</td>
               <td>
-                <Button size="small" scheme="normal" className="nowrap">
+                <Button
+                  size="small"
+                  scheme="normal"
+                  className="nowrap"
+                  onClick={() =>
+                    navigate(`/lectures/${currentLecture.lectureID}`)
+                  }
+                >
                   상세페이지로
                 </Button>
               </td>

@@ -18,7 +18,6 @@ type ViewMode = "column" | "row";
 export default function LecturesList({ lectures }: Props) {
   const navigate = useNavigate();
   const [view, setView] = useState<ViewMode>("column");
-  const { selectedLectures } = useSelected();
 
   return (
     <LecturesListStyle view={view}>

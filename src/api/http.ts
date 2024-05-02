@@ -37,12 +37,23 @@ authInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response.status === 401) {
-      // 오류 났을때의 대처
-      removeToken();
-      window.location.href = "/login";
-      return Promise.reject(error);
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          removeToken();
+          window.location.href = "/login";
+          break;
+        case 404:
+          return Promise.resolve({ data: [] });
+        default:
+          console.error("Error status:", error.response.status);
+          console.error("Error data:", error.response.data);
+          break;
+      }
+    } else {
+      console.error("No response received from server");
     }
+    return Promise.reject(error);
   }
 );
 
