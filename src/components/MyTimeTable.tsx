@@ -1,62 +1,72 @@
 import styled from "styled-components";
 import { theme } from "../style/theme";
+import { DragEvent, useEffect, useState } from "react";
+import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
+import { days, hours, initializeSchedule } from "../utils/timeTable";
+import { useSchedules } from "../hooks/useSchedules";
+import TableHeader from "./TableHeader";
+import TableContainer from "./TableContainer";
+import TableCell from "./TableCell";
+import TableContents from "./TableContents";
 
-type Schedule = {
+export type Schedule = {
   [day: string]: string[];
 };
 
-interface Props {
-  onDragOver: (event: DragEvent) => void;
-  onDrop: () => (event: DragEvent) => void;
+interface TableCellProps {
+  howLong: number;
+  startPoint: number;
 }
 
-export default function MyTimeTable({ onDragOver, onDrop }: Props) {
-  const days = ["월", "화", "수", "목", "금", "토", "일"];
-  const schedule: Schedule = days.reduce((acc, day) => {
-    acc[day] = Array(18).fill("");
-    return acc;
-  }, {} as Schedule);
+interface Props {
+  onDragOver: (event: DragEvent<HTMLTableCellElement>) => void;
+  onDrop: (event: DragEvent<HTMLTableCellElement>) => void;
+}
 
-  const hours = Array.from({ length: 18 }, (_, i) => 6 + i);
-
-  schedule["월"][0] =
-    "가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라마바사아자차카타파하가나다라";
-  schedule["화"][1] =
-    "자바와 스프링 부트로 생애 최초 서버 만들기, 누구나 쉽게 개발부터 배포까지! [서버 개발 올인원 패키지]";
-  schedule["수"][5] = "헌법에 소추되지 형사피고인은";
-  schedule["금"][3] = "웹 프로그래밍 실습";
+export default function MyTimeTable({ onDragStart, onDragOver, onDrop }: any) {
+  const dropHandler = onDrop();
+  const { scheduledLectures } = useSchedules();
+  const schedule = initializeSchedule();
 
   return (
     <MyTimeTableStyle>
-      <h2>내 시간표</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>시간</th>
-            {days.map((day) => (
-              <th key={day}>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {hours.map((hour, index) => (
-            <tr key={hour}>
-              <td>
-                <b>{`${hour}:00`}</b>
-              </td>
-              {days.map((day) => (
-                <td key={day + index}>
-                  <p>{schedule[day][index]}</p>
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TableContainer>
+        <TableHeader />
+        <TableContents
+          schedule={schedule}
+          scheduledLectures={scheduledLectures}
+        />
+      </TableContainer>
     </MyTimeTableStyle>
   );
 }
+// 길이
 
+// 스타일 컴포넌트
+const MyTimeTableStyle = styled.div`
+  width: 70%;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    border: 1px solid #ddd;
+    height: 50px;
+    text-align: center;
+    position: relative;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  p {
+    margin: 0;
+  }
+  .TableData {
+  }
+`;
+
+/*
 const MyTimeTableStyle = styled.div`
   width: 60%;
   flex-grow: 1;
@@ -92,3 +102,41 @@ const MyTimeTableStyle = styled.div`
     background-color: ${theme.color.background};
   }
 `;
+
+
+<MyTimeTableStyle>
+      <h2>내 시간표</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>시간</th>
+            {days.map((day) => (
+              <th key={day}>{day}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {hours.map((hour, index) => (
+            <tr key={hour}>
+              <td>
+                <b>{`${hour}:00`}</b>
+              </td>
+              {days.map((day) => (
+                <td
+                  key={day + index}
+                  draggable={tableData[day][index] ? true : false}
+                  onDragStart={onDragStart(tableData[day][index])}
+                  onDragOver={onDragOver}
+                  onDrop={dropHandler}
+                  className={tableData[day][index]? "merge" :"divide"}
+                  //여기서 Index를 심는건 ?
+                >
+                  <p>{tableData[day][index]}</p>
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </MyTimeTableStyle>
+*/

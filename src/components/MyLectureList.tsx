@@ -4,16 +4,17 @@ import { Modal } from "./common/Modal";
 import { useState } from "react";
 import { Lecture } from "../models/lecture.model";
 import { useSelected } from "../hooks/useSelected";
-import { fetchLectureDetail } from "../api/lectures.api";
+import { fetchLectureDetail } from "../api/lecture.api";
 import Scheduling from "./Scheduling";
 import { mockLectureData } from "../mock/lecture";
 import Button from "./common/Button";
+import { fa } from "@faker-js/faker";
 
 interface Props {
   onDragStart: (lecture: Lecture) => (event: DragEvent) => void;
 }
 
-export default function MyLectureList({ onDragStart }: Props) {
+export default function MyLectureList() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { selectedLectures } = useSelected();
   const [currentLecture, setCurrentLecture] = useState<Lecture>(
@@ -34,9 +35,9 @@ export default function MyLectureList({ onDragStart }: Props) {
       <h2>미등록 강의 목록</h2>
       <div className="lecture-list">
         <ul>
-          {selectedLectures.map((selected) => {
+          {selectedLectures.map((selected, i) => {
             return (
-              <li onClick={() => handleModal(selected.lectureID)}>
+              <li onClick={() => handleModal(selected.lectureID)} key={i}>
                 {selected.title}
               </li>
             );
@@ -65,7 +66,7 @@ export default function MyLectureList({ onDragStart }: Props) {
             </tbody>
           </table>
         </LectureInfoStyle>
-        <Scheduling lecture={currentLecture} />
+        <Scheduling lecture={currentLecture} onClose={() => setIsOpen(false)} />
       </Modal>
     </MyLectureListStyle>
   );
