@@ -9,16 +9,17 @@ import { fetchAddScheduled, fetchGetScheduled } from "../api/scheduled.api";
 
 interface Props {
   lecture: Lecture;
+  onClose: () => void;
 }
 
-export default function Scheduling({ lecture }: Props) {
+export default function Scheduling({ lecture, onClose }: Props) {
   const { selectedLectures } = useSelected();
   const [day, setDay] = useState(1);
   const [startTime, setStartTime] = useState("06:00");
   const [endTime, setEndTime] = useState("06:30");
   const startTimeOptions = generateTimeOptions(6, 23.5);
   const endTimeOptions = generateTimeOptions(6.5, 24);
-
+  console.log(lecture);
   const handleAdd = () => {
     selectedLectures.forEach((item) => {
       if (item.lectureID === lecture.lectureID) {
@@ -27,8 +28,10 @@ export default function Scheduling({ lecture }: Props) {
           weekDayID: day,
           startAt: startTime,
           endAt: endTime,
+          title: item.title,
         };
-        fetchAddScheduled(data).then((value) => console.log(value));
+        fetchAddScheduled(data).then((value) => onClose());
+        // 여기서 추가한 후 캐싱을 하면 useScheduled는 캐싱된 데이터를 받아오면됨
       }
     });
   };

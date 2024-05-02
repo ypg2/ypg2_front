@@ -6,6 +6,7 @@ export const fetchAddScheduled = async (data: ScheduledLecture) => {
     `scheduled-lectures/${data.selectedLectureID}`,
     data
   );
+  // 같은 시간에 시도했을 때 처리
   return response.data.message;
 };
 
@@ -13,11 +14,3 @@ export const fetchGetScheduled = async () => {
   const response = await authInstance.get(`scheduled-lectures`);
   return response ? response.data.data : [];
 };
-
-// 백엔드에서 수정 예정
-// export const fetchDeleteScheduled = async (data: ScheduledLecture) => {
-//   const response = await authInstance.delete(
-//     `scheduled-lectures/${data.selectedLectureID}/${data.scheduledLectureID}`
-//   );
-//   return response.data.message;
-// };
