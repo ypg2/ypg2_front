@@ -1,26 +1,15 @@
 import styled from "styled-components";
 import MyLectureList from "../components/MyLectureList";
 import MyTimeTable from "../components/MyTimeTable";
-import { Lecture } from "../models/lecture.model";
-import { useState } from "react";
+import { DragAndDropProvider } from "../context/DragAndDrop";
+
+interface Props {
+  weekDayID: number;
+  startAt: number;
+  endAt: number;
+}
 
 export default function MyLectures() {
-  const [draggedItem, setDraggedItem] = useState<Lecture | null>(null);
-
-  const handleDragStart =
-    (title: string) => (event: React.DragEvent<HTMLLIElement>) => {
-      event.dataTransfer?.setData("text/plain", title);
-      console.log(title);
-    };
-
-  const handleDragOver = (event: React.DragEvent<HTMLTableCellElement>) => {
-    event.preventDefault(); // 드롭 가능 영역으로 설정
-  };
-
-  const handleDrop = () => (event: React.DragEvent<HTMLTableCellElement>) => {
-    const title = event.dataTransfer.getData("text/plain");
-  };
-
   return (
     <MyLecturesStyle>
       <div className="description">
@@ -28,11 +17,9 @@ export default function MyLectures() {
       </div>
       <div className="tables">
         <MyLectureList />
-        <MyTimeTable
-          onDragStart={handleDragStart}
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        />
+        <DragAndDropProvider>
+          <MyTimeTable />
+        </DragAndDropProvider>
       </div>
     </MyLecturesStyle>
   );
@@ -41,7 +28,6 @@ export default function MyLectures() {
 const MyLecturesStyle = styled.div`
   display: flex;
   flex-direction: column;
-
   .tables {
     display: flex;
     justify-content: space-between;
