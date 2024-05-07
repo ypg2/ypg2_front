@@ -32,10 +32,6 @@ export const fetchAddScheduled = async (data: ScheduledLecture) => {
 };
 
 export const fetchGetScheduled = async () => {
-  try {
-    const response = await authInstance.get(`scheduled-lectures`);
-    return response ? response.data.data : [];
-  } catch (error) {
-    return [];
-  }
+  const response = await authInstance.get(`scheduled-lectures`);
+  return response ? response.data.data : [];
 };
