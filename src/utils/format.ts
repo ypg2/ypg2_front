@@ -64,6 +64,8 @@ export const formatStartEnd = (dropData: UpdateProps, minute: string) => {
     endHour = startHour + Math.floor(dropData.howLong);
     if (dropData.howLong % 2 !== 0) {
       endHour = endHour + 1;
+    } else if (dropData.howLong % 2 === 0) {
+      endMinute = 30;
     }
   }
   const startAt =

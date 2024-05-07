@@ -5,16 +5,20 @@ import { useQuery } from "react-query";
 
 export const useSchedules = (): {
   scheduledLectures: ScheduledLectureFormat[];
+  isScheduled: any;
 } => {
   const { data, isLoading } = useQuery("schedules", fetchScheduledLectures);
 
   try {
     const currentScheduledLectures = data?.data;
     const scheduledLectures = formatScheduled(currentScheduledLectures);
-    return { scheduledLectures };
+    const isScheduled = (id: number) => {
+      return scheduledLectures?.some((lecture) => lecture.lectureID === id);
+    };
+    return { scheduledLectures, isScheduled };
   } catch (error) {
     console.log(error);
   }
 
-  return { scheduledLectures: [] };
+  return { scheduledLectures: [], isScheduled: 1 };
 };
