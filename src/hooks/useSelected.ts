@@ -40,7 +40,7 @@ export const useSelected = () => {
     }
   };
 
-  const getSelected = async () => {
+  const getSelected = () => {
     if (isLoggedIn) {
       fetchGetSelected().then((items) => {
         setSelectedLectures(items);
@@ -50,6 +50,7 @@ export const useSelected = () => {
 
   useEffect(() => {
     getSelected();
+    console.log("호출");
   }, []);
 
   return { selectedLectures, isSelected, addSelected, deleteSelected };
