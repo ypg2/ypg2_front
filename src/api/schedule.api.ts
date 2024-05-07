@@ -1,9 +1,11 @@
 import { authInstance } from "./http";
 
 export const fetchScheduledLectures = async () => {
-  const response = await authInstance.get(`/scheduled-lectures`);
-  if (response) {
+  try {
+    const response = await authInstance.get(`/scheduled-lectures`);
     return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
-  return [];
 };

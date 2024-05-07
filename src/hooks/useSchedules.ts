@@ -1,28 +1,20 @@
 import { useEffect, useState } from "react";
 import { fetchScheduledLectures } from "../api/schedule.api";
 import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
+import { useQuery } from "react-query";
 
-export const useSchedules = () => {
-  const [scheduledLectures, setScheduledLectures] =
-    useState<ScheduledLectureFormat[]>();
+export const useSchedules = (): {
+  scheduledLectures: ScheduledLectureFormat[];
+} => {
+  const { data, isLoading } = useQuery("schedules", fetchScheduledLectures);
 
-  const isScheduled = (id: number) => {
-    return scheduledLectures?.some((lecture) => lecture.lectureID === id);
-  };
+  try {
+    const currentScheduledLectures = data?.data;
+    const scheduledLectures = formatScheduled(currentScheduledLectures);
+    return { scheduledLectures };
+  } catch (error) {
+    console.log(error);
+  }
 
-  useEffect(() => {
-    const handleScheduledLectures = async () => {
-      const response = await fetchScheduledLectures();
-      const currentScheduledLectures = response.data;
-      const currentFormatScheduledLectures = formatScheduled(
-        currentScheduledLectures
-      );
-
-      setScheduledLectures(currentFormatScheduledLectures);
-    };
-
-    handleScheduledLectures();
-  }, []);
-
-  return { scheduledLectures, isScheduled };
+  return { scheduledLectures: [] };
 };

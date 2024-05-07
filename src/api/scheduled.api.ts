@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ScheduledLecture } from "../models/scheduled.model";
 import { authInstance } from "./http";
+import { UpdateProps } from "../components/TableContents";
 
 export const fetchAddScheduled = async (data: ScheduledLecture) => {
   try {
@@ -12,9 +13,6 @@ export const fetchAddScheduled = async (data: ScheduledLecture) => {
   } catch (error) {
     if (axios.isAxiosError(error)) {
       if (error.response) {
-        console.error("Error status:", error.response.status);
-        console.error("Error data:", error.response.data);
-
         if (error.response.status === 409) {
           return error.response.data.message;
         } else {
@@ -34,4 +32,12 @@ export const fetchAddScheduled = async (data: ScheduledLecture) => {
 export const fetchGetScheduled = async () => {
   const response = await authInstance.get(`scheduled-lectures`);
   return response ? response.data.data : [];
+};
+
+export const fetchUpdateScheduled = async (data: UpdateProps) => {
+  await authInstance.put(`schedule-lectures/${data.lectureID}`);
+};
+
+export const fetchDeleteScheduled = async (lectureID: number) => {
+  await authInstance.delete(`schedule-lectures/${lectureID}`);
 };
