@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import {
   ScheduledLectureFormat,
   calculateHowLong,
@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { DragAndDropContext } from "../context/DragAndDrop";
 
 interface Props {
-  scheduledLectures?: ScheduledLectureFormat[];
+  scheduledLectures: ScheduledLectureFormat[];
   hourIndex: number;
   dayIndex: number;
 }
@@ -38,6 +38,8 @@ export default function TableCell({
             onDragStart={handleDragStart({
               howLong: calculateHowLong(lecture),
               lectureID: lecture.lectureID,
+              weekDayID: 0,
+              startAt: 0,
             })}
           >
             {lecture.title}

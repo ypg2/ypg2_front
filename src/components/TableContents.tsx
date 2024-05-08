@@ -2,12 +2,8 @@ import { useContext } from "react";
 import { ScheduledLectureFormat, formatStartEnd } from "../utils/format";
 import TableCell from "./TableCell";
 import { DragAndDropContext } from "../context/DragAndDrop";
-import styled from "styled-components";
-
-import { Modal } from "./common/Modal";
-import Button from "./common/Button";
 import { fetchUpdateScheduled } from "../api/scheduled.api";
-import { QueryClient, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import ScheduleModal from "./ScheduleModal";
 
 interface Props {
@@ -23,15 +19,8 @@ export interface UpdateProps {
 }
 
 export default function TableContents({ schedule, scheduledLectures }: Props) {
-  const {
-    handleDragLeave,
-    handleDragOver,
-    handleDrop,
-    isOpen,
-    onClose,
-    dropData,
-  } = useContext(DragAndDropContext);
-
+  const { handleDragOver, handleDrop, isOpen, onClose, dropData } =
+    useContext(DragAndDropContext);
   const queryClient = useQueryClient();
 
   const handleClick = async (event: any) => {
@@ -44,11 +33,12 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
         weekDayID: dropData.weekDayID,
         lectureID: dropData.lectureID,
       };
+      console.log(data);
       await fetchUpdateScheduled(data);
       queryClient.invalidateQueries("schedules");
       onClose();
     } catch (error: any) {
-      alert(error.message);
+      alert(error);
       onClose();
     }
   };
@@ -71,12 +61,13 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
             {schedule[hourIndex].map((lecture, dayIndex) => (
               <td
                 key={dayIndex}
-                onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop(hourIndex + 6, dayIndex + 1)}
               >
                 <TableCell
-                  scheduledLectures={scheduledLectures}
+                  scheduledLectures={
+                    scheduledLectures === undefined ? [] : scheduledLectures
+                  }
                   hourIndex={hourIndex}
                   dayIndex={dayIndex}
                 />

@@ -1,5 +1,5 @@
 export interface ScheduledLecture {
-  lectureID?: number;
+  lectureID: number;
   scheduledLectureID?: number;
   selectedLectureID?: number;
   weekDayID: number;

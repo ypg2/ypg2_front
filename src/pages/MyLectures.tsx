@@ -3,12 +3,6 @@ import MyLectureList from "../components/MyLectureList";
 import MyTimeTable from "../components/MyTimeTable";
 import { DragAndDropProvider } from "../context/DragAndDrop";
 
-interface Props {
-  weekDayID: number;
-  startAt: number;
-  endAt: number;
-}
-
 export default function MyLectures() {
   return (
     <MyLecturesStyle>

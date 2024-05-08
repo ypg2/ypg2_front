@@ -1,20 +1,16 @@
 import styled from "styled-components";
 import Button from "./common/Button";
 import { Modal } from "./common/Modal";
+import React from "react";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   isSchedule: boolean;
-  handleClick: (event: any) => void;
+  handleClick: (event: React.FormEvent<HTMLButtonElement>) => void;
 }
 
-export default function ScheduleModal({
-  isOpen,
-  onClose,
-  isSchedule,
-  handleClick,
-}: Props) {
+export default function ScheduleModal({ isOpen, onClose, handleClick }: Props) {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isSchedule={true}>

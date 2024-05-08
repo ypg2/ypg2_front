@@ -10,7 +10,7 @@ export type Schedule = {
   [day: string]: string[];
 };
 
-export default function MyTimeTable({}: any) {
+export default function MyTimeTable() {
   const { scheduledLectures } = useSchedules();
   const schedule = initializeSchedule();
 

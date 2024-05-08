@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { tr } from "@faker-js/faker";
 import { fetchScheduledLectures } from "../api/schedule.api";
 import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
 import { useQuery } from "react-query";
 
 export const useSchedules = (): {
   scheduledLectures: ScheduledLectureFormat[];
-  isScheduled: any;
+  isScheduled: (id: number) => boolean;
 } => {
   const { data, isLoading } = useQuery("schedules", fetchScheduledLectures);
 
@@ -15,10 +15,11 @@ export const useSchedules = (): {
     const isScheduled = (id: number) => {
       return scheduledLectures?.some((lecture) => lecture.lectureID === id);
     };
+
     return { scheduledLectures, isScheduled };
   } catch (error) {
     console.log(error);
   }
 
-  return { scheduledLectures: [], isScheduled: 1 };
+  return { scheduledLectures: [], isScheduled: () => true };
 };

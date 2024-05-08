@@ -1,20 +1,9 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 interface Props {
   children: React.ReactNode;
 }
 
-interface State {
-  handleDragStart: any;
-  handleDragOver: any;
-  handleDrop: any;
-  handleDragLeave: any;
-  handleDropDelete: any;
-  isOpen: boolean;
-  onClose: () => void;
-  dropData: UpdateProps;
-  dropDataDelete: DeleteProps;
-}
 export interface UpdateProps {
   howLong: number;
   lectureID: number;
@@ -26,12 +15,31 @@ export interface DeleteProps {
   lectureID: number;
 }
 
+interface State {
+  handleDragStart: (
+    data: UpdateProps
+  ) => (event: React.DragEvent<HTMLDivElement>) => void;
+  handleDragOver: (
+    event: React.DragEvent<HTMLTableCellElement>
+  ) => void | ((event: React.DragEvent<HTMLHeadElement>) => void);
+  handleDrop: (
+    startAt: number,
+    dayIndex: number
+  ) => (
+    event: React.DragEvent<HTMLTableCellElement>
+  ) => void | ((event: React.DragEvent<HTMLHeadingElement>) => void);
+  handleDropDelete: (event: React.DragEvent<HTMLTableCellElement>) => void;
+  isOpen: boolean;
+  onClose: () => void;
+  dropData: UpdateProps;
+  dropDataDelete: DeleteProps;
+}
+
 export const state = {
   handleDragStart: () => () => {},
   handleDragOver: () => {},
   handleDrop: () => () => {},
   handleDropDelete: () => {},
-  handleDragLeave: () => {},
   isOpen: false,
   onClose: () => {},
   dropData: {
@@ -60,35 +68,38 @@ const dropsDelete = {
 export const DragAndDropContext = createContext<State>(state);
 
 export const DragAndDropProvider = ({ children }: Props) => {
-  const handleDragStart =
-    (data: UpdateProps) => (event: React.DragEvent<HTMLLIElement>) => {
-      event.dataTransfer?.setData("text/plain", JSON.stringify(data));
-    };
-
-  const handleDragOver = (event: any) => {
-    event.preventDefault(); // 드롭 가능 영역으로 설정
-  };
-
   const [dropData, setDropData] = useState<UpdateProps>(drops);
   const [dropDataDelete, setDropDataDelete] =
     useState<DeleteProps>(dropsDelete);
-  const handleDrop = (startAt: number, dayIndex: number) => (event: any) => {
-    event.preventDefault();
-    onOpen();
-    const getDropData = JSON.parse(event.dataTransfer.getData("text/plain"));
-    getDropData.startAt = startAt;
-    getDropData.weekDayID = dayIndex;
-    setDropData(getDropData);
+
+  const handleDragStart =
+    (data: UpdateProps) => (event: React.DragEvent<HTMLDivElement>) => {
+      event.dataTransfer?.setData("text/plain", JSON.stringify(data));
+    };
+
+  const handleDragOver = (
+    event:
+      | React.DragEvent<HTMLTableCellElement>
+      | React.DragEvent<HTMLHeadElement>
+  ) => {
+    event.preventDefault(); // 드롭 가능 영역으로 설정
   };
 
-  const handleDropDelete = (event: any) => {
+  const handleDrop =
+    (startAt: number, dayIndex: number) =>
+    (event: React.DragEvent<HTMLTableCellElement>) => {
+      onOpen();
+      event.preventDefault();
+      const getDropData = JSON.parse(event.dataTransfer.getData("text/plain"));
+      getDropData.startAt = startAt;
+      getDropData.weekDayID = dayIndex;
+      setDropData(getDropData);
+    };
+
+  const handleDropDelete = (event: React.DragEvent<HTMLHeadElement>) => {
     event.preventDefault();
     const getDropData = JSON.parse(event.dataTransfer.getData("text/plain"));
     setDropDataDelete(getDropData);
-  };
-
-  const handleDragLeave = (event: any) => {
-    event.preventDefault();
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -105,7 +116,6 @@ export const DragAndDropProvider = ({ children }: Props) => {
       value={{
         handleDragStart,
         handleDragOver,
-        handleDragLeave,
         handleDrop,
         handleDropDelete,
         isOpen,
