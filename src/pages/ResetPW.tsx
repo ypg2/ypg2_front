@@ -18,7 +18,6 @@ export default function ResetPW() {
 
   return (
     <ResetPWStyle>
-      <h2>비밀번호 초기화</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset>
           <input
@@ -50,4 +49,26 @@ export default function ResetPW() {
   );
 }
 
-const ResetPWStyle = styled.div``;
+const ResetPWStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    fieldset {
+      border: none;
+    }
+
+    input {
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #eeeeee;
+    }
+  }
+`;
