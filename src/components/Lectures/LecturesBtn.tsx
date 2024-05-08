@@ -14,8 +14,13 @@ export const LecturesBtn = React.memo(({ lecture }: Props) => {
   const { isSelected, addSelected } = useSelected();
   const { isScheduled } = useSchedules();
 
-  return isLoggedIn &&
-    (isSelected(lecture.lectureID) || isScheduled(lecture.lectureID)) ? (
+  const isActive = () => {
+    if (isLoggedIn) {
+      return isSelected(lecture.lectureID) || isScheduled(lecture.lectureID);
+    } else return false;
+  };
+
+  return isActive() ? (
     <Button scheme="normal" size="medium" disabled>
       내 강의
     </Button>

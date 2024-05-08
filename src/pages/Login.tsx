@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../api/auth.api";
 import { User } from "../models/user.model";
 import { useAuthStore } from "../store/authStore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigator = useNavigate();
@@ -57,6 +57,9 @@ export default function Login() {
           submit
         </Button>
       </form>
+      <div className="info">
+        <Link to="/reset-password">비밀번호 초기화</Link>
+      </div>
     </Container>
   );
 }
@@ -76,5 +79,10 @@ export const Container = styled.div`
       border-radius: 10px;
       border: 1px solid #eeeeee;
     }
+  }
+
+  .info {
+    text-align: center;
+    padding: 16px 0 0 0;
   }
 `;

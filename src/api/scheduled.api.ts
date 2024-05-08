@@ -6,7 +6,7 @@ import { UpdateProps } from "../components/TableContents";
 export const fetchAddScheduled = async (data: ScheduledLecture) => {
   try {
     const response = await authInstance.post(
-      `scheduled-lectures/${data.lectureID}`,
+      `/scheduled-lectures/${data.lectureID}`,
       data
     );
     return response.data.message;
