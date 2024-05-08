@@ -5,7 +5,7 @@ import { authInstance } from "./http";
 export const fetchAddScheduled = async (data: ScheduledLecture) => {
   try {
     const response = await authInstance.post(
-      `scheduled-lectures/${data.lectureID}`,
+      `/scheduled-lectures/${data.lectureID}`,
       data
     );
     return response.data.message;
@@ -33,7 +33,7 @@ export const fetchAddScheduled = async (data: ScheduledLecture) => {
 
 export const fetchGetScheduled = async () => {
   try {
-    const response = await authInstance.get(`scheduled-lectures`);
+    const response = await authInstance.get(`/scheduled-lectures`);
     return response ? response.data.data : [];
   } catch (error) {
     return [];

@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getToken, removeToken } from "../store/authStore";
-export const BASE_URL = "http://localhost:3001/api";
+
+export const BASE_URL =
+  "http://ec2-13-209-84-47.ap-northeast-2.compute.amazonaws.com:3001/api";
 const DEFAULT_TIMEOUT = 20000;
 
 const createDefaultInstance = (config?: AxiosRequestConfig) => {

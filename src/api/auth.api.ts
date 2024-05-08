@@ -13,4 +13,14 @@ const join = async (data: User) => {
   return response.data;
 };
 
-export { login, join };
+const fetchResetRequest = async (data: User) => {
+  const response = await defaultInstance.post("/users/reset-password", data);
+  return response.data;
+};
+
+const fetchResetPW = async (data: User) => {
+  const response = await defaultInstance.put("/users/reset-password", data);
+  return response.data;
+};
+
+export { login, join, fetchResetRequest, fetchResetPW };
