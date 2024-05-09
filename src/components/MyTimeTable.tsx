@@ -41,13 +41,14 @@ const MyTimeTableStyle = styled.div`
     height: 50px;
     text-align: center;
     position: relative;
-  }
-  .draging {
-    border: 1.5px solid midnightblue;
-  }
-  .hold {
     border: 1px solid #ddd;
   }
+
+  .draging {
+    border: 2px dotted midnightblue;
+    background-color: #ddd;
+  }
+
   .hoverd {
     background-color: aliceblue;
   }
