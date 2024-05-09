@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { getToken, removeToken } from "../store/authStore";
-export const BASE_URL = "http://localhost:3001/api";
+export const BASE_URL =
+  "http://ec2-13-209-84-47.ap-northeast-2.compute.amazonaws.com:3001/api";
 const DEFAULT_TIMEOUT = 20000;
 
 const createDefaultInstance = (config?: AxiosRequestConfig) => {
@@ -45,9 +46,11 @@ authInstance.interceptors.response.use(
           break;
         case 404:
           return Promise.resolve({ data: [] });
+        case 409:
+          return alert(error.response.data.message);
+        case 304:
+          return alert(`이전과 동일한 스케줄입니다.`);
         default:
-          console.error("Error status:", error.response.status);
-          console.error("Error data:", error.response.data);
           break;
       }
     } else {
