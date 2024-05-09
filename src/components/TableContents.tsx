@@ -19,10 +19,16 @@ export interface UpdateProps {
 }
 
 export default function TableContents({ schedule, scheduledLectures }: Props) {
-  const { handleDragOver, handleDrop, isOpen, onClose, dropData } =
-    useContext(DragAndDropContext);
+  const {
+    handleDragOver,
+    handleDrop,
+    isOpen,
+    onClose,
+    dropData,
+    dragingPoint,
+  } = useContext(DragAndDropContext);
+  const [dragingDayIndex, dragingHourIndex] = dragingPoint;
   const queryClient = useQueryClient();
-
   const handleClick = async (event: any) => {
     try {
       const minute = event.target.value;
@@ -41,7 +47,7 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
       onClose();
     }
   };
-  console.log();
+
   return (
     <>
       {isOpen && (
@@ -59,9 +65,18 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
             <td>{`${hourIndex + 6}:00`}</td>
             {schedule[hourIndex].map((lecture, dayIndex) => (
               <td
-                key={dayIndex}
+                key={`${dayIndex},${hourIndex}`}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop(hourIndex + 6, dayIndex + 1)}
+                title={`${dayIndex},${hourIndex}`}
+                className={
+                  dayIndex === dragingDayIndex && hourIndex === dragingHourIndex
+                    ? "draging"
+                    : "hold"
+                }
+
+                // 여기서 어떤 값이 true면? hourIndex,dayIndex와 동일하면
+                // 어떤 속성값을 주고 해당 속성값이 있으면? styled-components에서 조절
               >
                 <TableCell
                   scheduledLectures={

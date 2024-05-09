@@ -38,10 +38,15 @@ const MyTimeTableStyle = styled.div`
   }
   th,
   td {
-    border: 1px solid #ddd;
     height: 50px;
     text-align: center;
     position: relative;
+  }
+  .draging {
+    border: 1.5px solid midnightblue;
+  }
+  .hold {
+    border: 1px solid #ddd;
   }
   .hoverd {
     background-color: aliceblue;

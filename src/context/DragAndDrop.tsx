@@ -34,6 +34,7 @@ interface State {
   dropData: UpdateProps;
   dropDataDelete: DeleteProps;
   isDraging: boolean;
+  dragingPoint: number[];
 }
 
 export const state = {
@@ -54,6 +55,7 @@ export const state = {
     lectureID: 0,
   },
   isDraging: false,
+  dragingPoint: [],
 };
 
 const drops = {
@@ -73,6 +75,7 @@ export const DragAndDropProvider = ({ children }: Props) => {
   const [dropData, setDropData] = useState<UpdateProps>(drops);
   const [dropDataDelete, setDropDataDelete] =
     useState<DeleteProps>(dropsDelete);
+  const [dragingPoint, setDragingPoint] = useState<number[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => {
     setIsOpen(true);
@@ -81,7 +84,7 @@ export const DragAndDropProvider = ({ children }: Props) => {
     setIsOpen(false);
   };
   const [isDraging, setIsDraging] = useState(false);
-
+  const [] = useState();
   const handleDragStart =
     (data: UpdateProps) => (event: React.DragEvent<HTMLDivElement>) => {
       event.dataTransfer?.setData("text/plain", JSON.stringify(data));
@@ -92,7 +95,11 @@ export const DragAndDropProvider = ({ children }: Props) => {
       | React.DragEvent<HTMLTableCellElement>
       | React.DragEvent<HTMLHeadElement>
   ) => {
-    event.preventDefault(); // 드롭 가능 영역으로 설정
+    event.preventDefault();
+    const dragPoint = event.currentTarget.title
+      .split(`,`)
+      .map((item) => Number(item));
+    setDragingPoint(dragPoint);
     setIsDraging(true);
   };
 
@@ -106,6 +113,7 @@ export const DragAndDropProvider = ({ children }: Props) => {
       getDropData.weekDayID = dayIndex;
       setDropData(getDropData);
       setIsDraging(false);
+      setDragingPoint([-1, -1]);
     };
 
   const handleDropDelete = (event: React.DragEvent<HTMLHeadElement>) => {
@@ -126,6 +134,7 @@ export const DragAndDropProvider = ({ children }: Props) => {
         dropData,
         dropDataDelete,
         isDraging,
+        dragingPoint,
       }}
     >
       {children}
