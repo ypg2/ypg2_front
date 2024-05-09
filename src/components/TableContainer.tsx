@@ -5,6 +5,7 @@ import { useContext, useEffect } from "react";
 
 import { useQueryClient } from "react-query";
 import { fetchDeleteScheduled } from "../api/scheduled.api";
+import { theme } from "../style/theme";
 
 interface Props {
   children: React.ReactNode;
@@ -42,5 +43,9 @@ const StyledTableContainer = styled.div`
   .header {
     display: flex;
     justify-content: space-between;
+
+    h2 {
+      color: ${theme.color.primary};
+    }
   }
 `;

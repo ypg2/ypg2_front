@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { theme } from "../../style/theme";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
+import { AiOutlineCalendar } from "react-icons/ai";
 
 export default function Header() {
   const { isLoggedIn, storeLogout } = useAuthStore();
@@ -9,7 +10,10 @@ export default function Header() {
   return (
     <HeaderStyle>
       <Link to="/">
-        <h1 className="logo">로고</h1>
+        <h1 className="logo">
+          <AiOutlineCalendar />
+          마이플래너
+        </h1>
       </Link>
 
       <nav className="auth">
@@ -48,6 +52,12 @@ const HeaderStyle = styled.header`
 
   h1 {
     color: ${theme.color.primary};
+
+    svg {
+      fill: ${theme.color.primary};
+      padding: 0;
+      margin: 0 8px 10px 0;
+    }
 
     .nav {
       display: flex;

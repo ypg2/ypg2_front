@@ -2,20 +2,10 @@ import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { QUERYSTRING } from "../../constants/querystring";
 import Button from "../common/Button";
+import useCategory from "../../hooks/useCategory";
 
 export default function LecturesFiliter() {
-  const categoryNameArr = [
-    "전체",
-    "가",
-    "나",
-    "다",
-    "라",
-    "마",
-    "바",
-    "사",
-    "아",
-    "자",
-  ];
+  const { categoryNameArr } = useCategory();
 
   const [searchParams, setSearchParams] = useSearchParams();
   // 여기서는 그냥 query만 변경되도록

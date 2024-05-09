@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <FooterStyle>
       <div className="copyright">
-        <p>copyright(c), 2024, 우리 웹 서비스 이름 뭐라고 해요</p>
+        <p>copyright(c), 2024, 마이플래너</p>
       </div>
     </FooterStyle>
   );

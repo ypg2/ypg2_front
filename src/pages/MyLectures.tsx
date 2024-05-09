@@ -7,7 +7,8 @@ export default function MyLectures() {
   return (
     <MyLecturesStyle>
       <div className="description">
-        <p>왼쪽의 강의 목록을 오른쪽에 드래그해 시간을 설정하세요.</p>
+        <p>내 시간표 속 강의를 드래그해 원하는 시간으로 옮기세요.</p>
+        <p>쓰레기통으로 드래그하면 강의가 삭제됩니다.</p>
       </div>
       <div className="tables">
         <MyLectureList />

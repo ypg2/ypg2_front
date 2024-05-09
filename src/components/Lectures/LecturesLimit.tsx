@@ -19,7 +19,7 @@ export default function LecturesLimit() {
       {limitPointArr.map((limitPoint, i) => (
         <Button
           key={i}
-          scheme="like"
+          scheme="primary"
           size="small"
           onClick={() => handleClickLimit(limitPoint)}
         >

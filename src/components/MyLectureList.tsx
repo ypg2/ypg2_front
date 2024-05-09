@@ -97,7 +97,7 @@ export default function MyLectureList() {
 const MyLectureListStyle = styled.div`
   width: 40%;
   flex: 1;
-  padding: 20px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   align-items: center;

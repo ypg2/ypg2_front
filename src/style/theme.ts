@@ -40,7 +40,7 @@ interface Theme {
 }
 export const theme: Theme = {
   color: {
-    primary: "#ff5800",
+    primary: "#121254",
     background: "lightgray",
     secondary: "#5f5f5f",
     third: "green",
