@@ -2,24 +2,29 @@ import { tr } from "@faker-js/faker";
 import { fetchScheduledLectures } from "../api/schedule.api";
 import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
 import { useQuery } from "react-query";
+import { useAuthStore } from "../store/authStore";
+import { useEffect, useState } from "react";
+import { fetchGetScheduled } from "../api/scheduled.api";
 
-export const useSchedules = (): {
-  scheduledLectures: ScheduledLectureFormat[];
-  isScheduled: (id: number) => boolean;
-} => {
-  const { data, isLoading } = useQuery("schedules", fetchScheduledLectures);
+export const useSchedules = () => {
+  const { isLoggedIn } = useAuthStore();
+  const [scheduledLectures, setScheduledLectures] = useState<
+    ScheduledLectureFormat[]
+  >([]);
 
-  try {
-    const currentScheduledLectures = data?.data;
-    const scheduledLectures = formatScheduled(currentScheduledLectures);
-    const isScheduled = (id: number) => {
-      return scheduledLectures?.some((lecture) => lecture.lectureID === id);
-    };
+  const isScheduled = (id: number) => {
+    return scheduledLectures?.some((lecture) => lecture.lectureID === id);
+  };
+  const { data, isLoading } = useQuery<ScheduledLectureFormat[]>(
+    "schedules",
+    fetchGetScheduled
+  );
 
-    return { scheduledLectures, isScheduled };
-  } catch (error) {
-    console.log(error);
-  }
+  useEffect(() => {
+    if (data) {
+      setScheduledLectures(formatScheduled(data));
+    }
+  }, [data]);
 
-  return { scheduledLectures: [], isScheduled: () => true };
+  return { scheduledLectures, isScheduled };
 };
