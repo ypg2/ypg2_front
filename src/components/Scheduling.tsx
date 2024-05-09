@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useSelected } from "../hooks/useSelected";
 import { ScheduledLecture } from "../models/scheduled.model";
 import { fetchAddScheduled, fetchGetScheduled } from "../api/scheduled.api";
+import { useQueryClient } from "react-query";
 
 interface Props {
   lecture: Lecture;
@@ -21,7 +22,7 @@ export default function Scheduling({ lecture, onClose }: Props) {
   const endTimeOptions = generateTimeOptions(6.5, 24);
 
   //   console.log(lecture);
-
+  const queryClient = useQueryClient();
   const handleAdd = () => {
     const baseDate = "2000-01-01";
     const startDateTime = new Date(`${baseDate}T${startTime}:00`);
@@ -43,9 +44,9 @@ export default function Scheduling({ lecture, onClose }: Props) {
         };
         fetchAddScheduled(data).then((message) => {
           alert(message);
+          queryClient.invalidateQueries(`schedules`);
           onClose();
         });
-        // 여기서 추가한 후 캐싱을 하면 useScheduled는 캐싱된 데이터를 받아오면됨
       }
     });
   };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
 import { fetchGetScheduled } from "../api/scheduled.api";
 import { useAuthStore } from "../store/authStore";
+import { useQuery } from "react-query";
 
 export const useSchedules = () => {
   const { isLoggedIn } = useAuthStore();
@@ -12,19 +13,15 @@ export const useSchedules = () => {
   const isScheduled = (id: number) => {
     return scheduledLectures?.some((lecture) => lecture.lectureID === id);
   };
+  const { data, isLoading } = useQuery<ScheduledLectureFormat[]>(
+    "schedules",
+    fetchGetScheduled
+  );
 
   useEffect(() => {
-    const handleScheduledLectures = async () => {
-      const response = await fetchGetScheduled();
-      const currentScheduledLectures = response.data;
-      const currentFormatScheduledLectures = formatScheduled(
-        currentScheduledLectures
-      );
-
-      setScheduledLectures(currentFormatScheduledLectures);
-    };
-
-    if (isLoggedIn) handleScheduledLectures();
+    if (isLoggedIn && data) {
+      setScheduledLectures(formatScheduled(data));
+    }
   }, []);
 
   return { scheduledLectures, isScheduled };

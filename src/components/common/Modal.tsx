@@ -8,9 +8,10 @@ interface Props {
   children: ReactNode;
   isOpen: boolean;
   onClose: () => void;
+  isSchedule?: boolean;
 }
 
-export const Modal = ({ children, isOpen, onClose }: Props) => {
+export const Modal = ({ children, isOpen, onClose, isSchedule }: Props) => {
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -56,9 +57,11 @@ export const Modal = ({ children, isOpen, onClose }: Props) => {
     >
       <div className="modal-body" ref={modalRef}>
         <div className="modal-content">{children}</div>
-        <button className="modal-close" onClick={handleClose}>
-          <FaPlus />
-        </button>
+        {!isSchedule && (
+          <button className="modal-close" onClick={handleClose}>
+            <FaPlus />
+          </button>
+        )}
       </div>
     </ModalStyle>,
     document.body

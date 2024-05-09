@@ -1,30 +1,16 @@
 import styled from "styled-components";
 import { theme } from "../style/theme";
-import { DragEvent, useEffect, useState } from "react";
-import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
 import { days, hours, initializeSchedule } from "../utils/timeTable";
 import { useSchedules } from "../hooks/useSchedules";
 import TableHeader from "./TableHeader";
 import TableContainer from "./TableContainer";
-import TableCell from "./TableCell";
 import TableContents from "./TableContents";
 
 export type Schedule = {
   [day: string]: string[];
 };
 
-interface TableCellProps {
-  howLong: number;
-  startPoint: number;
-}
-
-interface Props {
-  onDragOver: (event: DragEvent<HTMLTableCellElement>) => void;
-  onDrop: (event: DragEvent<HTMLTableCellElement>) => void;
-}
-
-export default function MyTimeTable({ onDragStart, onDragOver, onDrop }: any) {
-  const dropHandler = onDrop();
+export default function MyTimeTable() {
   const { scheduledLectures } = useSchedules();
   const schedule = initializeSchedule();
 
@@ -45,6 +31,7 @@ export default function MyTimeTable({ onDragStart, onDragOver, onDrop }: any) {
 // 스타일 컴포넌트
 const MyTimeTableStyle = styled.div`
   width: 70%;
+  position: relative;
   table {
     width: 100%;
     border-collapse: collapse;
@@ -56,13 +43,45 @@ const MyTimeTableStyle = styled.div`
     text-align: center;
     position: relative;
   }
+  .hoverd {
+    background-color: aliceblue;
+  }
   th {
     background-color: #f2f2f2;
   }
   p {
     margin: 0;
   }
-  .TableData {
+
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  &.fade-in {
+    animation: fade-in 0.3s ease-in-out forwards;
+  }
+
+  &.fade-out {
+    animation: fade-out 0.3s ease-in-out forwards;
+  }
+  .modal {
+    position: absolute;
+    display: flex;
+    padding: 50px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border-radius: ${theme.borderRadius.default};
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 100px;
   }
 `;
 

@@ -1,15 +1,21 @@
 import styled from "styled-components";
-import { ScheduledLectureFormat } from "../utils/format";
+import {
+  ScheduledLectureFormat,
+  calculateHowLong,
+  calculateStartPoint,
+} from "../utils/format";
+import React, { useContext, useState } from "react";
+import { DragAndDropContext } from "../context/DragAndDrop";
 
 interface Props {
-  scheduledLectures?: ScheduledLectureFormat[];
+  scheduledLectures: ScheduledLectureFormat[];
   hourIndex: number;
   dayIndex: number;
 }
 
 interface TableCellProps {
-  howLong: number;
-  startPoint: number;
+  howlong: number;
+  startpoint: number;
 }
 
 export default function TableCell({
@@ -17,37 +23,29 @@ export default function TableCell({
   hourIndex,
   dayIndex,
 }: Props) {
-  const calculateStartPoint = (lecture: ScheduledLectureFormat) => {
-    const startMinutes = lecture.startMinutes;
-    const startPoint = startMinutes === 0 ? 0 : 50;
-
-    return startPoint;
-  };
-
-  const calculateHowLong = (lecture: ScheduledLectureFormat) => {
-    const endMinutes = lecture.endMinutes;
-    const endHour = lecture.endHour;
-    const startMinutes = lecture.startMinutes;
-    const startHour = lecture.startHour;
-
-    const howLong =
-      endMinutes - startMinutes === 0
-        ? endHour - startHour
-        : endMinutes - startMinutes > 0
-        ? endHour - startHour + 0.5
-        : endHour - startHour - 0.5;
-
-    return howLong;
+  const { handleDragStart, isDraging } = useContext(DragAndDropContext);
+  const handleDragStartWrapper = (lecture: ScheduledLectureFormat) => {
+    return (event: React.DragEvent<HTMLDivElement>) => {
+      handleDragStart({
+        howLong: calculateHowLong(lecture),
+        lectureID: lecture.lectureID,
+        weekDayID: 0,
+        startAt: 0,
+      })(event);
+    };
   };
 
   return (
     <>
-      {scheduledLectures?.map((lecture) => {
+      {scheduledLectures?.map((lecture, i) => {
         return lecture.startHour === hourIndex + 6 &&
           lecture.weekDayID === dayIndex + 1 ? (
           <TableCellStyled
-            howLong={calculateHowLong(lecture)}
-            startPoint={calculateStartPoint(lecture)}
+            key={i}
+            howlong={calculateHowLong(lecture)}
+            startpoint={calculateStartPoint(lecture)}
+            draggable={true}
+            onDragStart={handleDragStartWrapper(lecture)}
           >
             {lecture.title}
           </TableCellStyled>
@@ -61,10 +59,12 @@ const TableCellStyled = styled.div<TableCellProps>`
   width: 100%;
   position: absolute;
   background-color: gainsboro;
-  height: ${(props) => 50 * props.howLong}px;
-  top: ${(props) => props.startPoint}%;
+  height: ${(props) => 50 * props.howlong}px;
+  top: ${(props) => props.startpoint}%;
   right: 0;
+  z-index: 999;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  font-size: 11px;
 `;

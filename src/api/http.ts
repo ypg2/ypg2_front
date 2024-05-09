@@ -47,9 +47,11 @@ authInstance.interceptors.response.use(
           break;
         case 404:
           return Promise.resolve({ data: [] });
+        case 409:
+          return alert(error.response.data.message);
+        case 304:
+          return alert(`이전과 동일한 스케줄입니다.`);
         default:
-          console.error("Error status:", error.response.status);
-          console.error("Error data:", error.response.data);
           break;
       }
     } else {

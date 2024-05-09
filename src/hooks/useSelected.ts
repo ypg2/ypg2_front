@@ -40,7 +40,7 @@ export const useSelected = () => {
     }
   };
 
-  const getSelected = async () => {
+  const getSelected = () => {
     if (isLoggedIn) {
       fetchGetSelected().then((items) => {
         setSelectedLectures(items);

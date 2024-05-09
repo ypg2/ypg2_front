@@ -10,10 +10,6 @@ import { mockLectureData } from "../mock/lecture";
 import Button from "./common/Button";
 import { useNavigate } from "react-router-dom";
 
-interface Props {
-  onDragStart: (lecture: Lecture) => (event: DragEvent) => void;
-}
-
 export default function MyLectureList() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(false);
