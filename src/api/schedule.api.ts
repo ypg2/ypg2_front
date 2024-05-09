@@ -5,7 +5,6 @@ export const fetchScheduledLectures = async () => {
     const response = await authInstance.get(`/scheduled-lectures`);
     return response.data;
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

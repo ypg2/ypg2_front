@@ -4,7 +4,7 @@ import {
   calculateHowLong,
   calculateStartPoint,
 } from "../utils/format";
-import { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { DragAndDropContext } from "../context/DragAndDrop";
 
 interface Props {
@@ -23,7 +23,17 @@ export default function TableCell({
   hourIndex,
   dayIndex,
 }: Props) {
-  const { handleDragStart } = useContext(DragAndDropContext);
+  const { handleDragStart, isDraging } = useContext(DragAndDropContext);
+  const handleDragStartWrapper = (lecture: ScheduledLectureFormat) => {
+    return (event: React.DragEvent<HTMLDivElement>) => {
+      handleDragStart({
+        howLong: calculateHowLong(lecture),
+        lectureID: lecture.lectureID,
+        weekDayID: 0,
+        startAt: 0,
+      })(event);
+    };
+  };
 
   return (
     <>
@@ -35,12 +45,7 @@ export default function TableCell({
             howlong={calculateHowLong(lecture)}
             startpoint={calculateStartPoint(lecture)}
             draggable={true}
-            onDragStart={handleDragStart({
-              howLong: calculateHowLong(lecture),
-              lectureID: lecture.lectureID,
-              weekDayID: 0,
-              startAt: 0,
-            })}
+            onDragStart={handleDragStartWrapper(lecture)}
           >
             {lecture.title}
           </TableCellStyled>
@@ -61,4 +66,5 @@ const TableCellStyled = styled.div<TableCellProps>`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 11px;
 `;

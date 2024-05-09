@@ -33,6 +33,7 @@ interface State {
   onClose: () => void;
   dropData: UpdateProps;
   dropDataDelete: DeleteProps;
+  isDraging: boolean;
 }
 
 export const state = {
@@ -52,6 +53,7 @@ export const state = {
     howLong: 0,
     lectureID: 0,
   },
+  isDraging: false,
 };
 
 const drops = {
@@ -71,6 +73,14 @@ export const DragAndDropProvider = ({ children }: Props) => {
   const [dropData, setDropData] = useState<UpdateProps>(drops);
   const [dropDataDelete, setDropDataDelete] =
     useState<DeleteProps>(dropsDelete);
+  const [isOpen, setIsOpen] = useState(false);
+  const onOpen = () => {
+    setIsOpen(true);
+  };
+  const onClose = () => {
+    setIsOpen(false);
+  };
+  const [isDraging, setIsDraging] = useState(false);
 
   const handleDragStart =
     (data: UpdateProps) => (event: React.DragEvent<HTMLDivElement>) => {
@@ -83,32 +93,25 @@ export const DragAndDropProvider = ({ children }: Props) => {
       | React.DragEvent<HTMLHeadElement>
   ) => {
     event.preventDefault(); // 드롭 가능 영역으로 설정
+    setIsDraging(true);
   };
 
   const handleDrop =
     (startAt: number, dayIndex: number) =>
     (event: React.DragEvent<HTMLTableCellElement>) => {
       onOpen();
-      event.preventDefault();
+      event.stopPropagation();
       const getDropData = JSON.parse(event.dataTransfer.getData("text/plain"));
       getDropData.startAt = startAt;
       getDropData.weekDayID = dayIndex;
       setDropData(getDropData);
+      setIsDraging(false);
     };
 
   const handleDropDelete = (event: React.DragEvent<HTMLHeadElement>) => {
     event.preventDefault();
     const getDropData = JSON.parse(event.dataTransfer.getData("text/plain"));
     setDropDataDelete(getDropData);
-  };
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  const onOpen = () => {
-    setIsOpen(true);
-  };
-  const onClose = () => {
-    setIsOpen(false);
   };
 
   return (
@@ -122,6 +125,7 @@ export const DragAndDropProvider = ({ children }: Props) => {
         onClose,
         dropData,
         dropDataDelete,
+        isDraging,
       }}
     >
       {children}

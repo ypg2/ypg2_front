@@ -50,7 +50,6 @@ export const useSelected = () => {
 
   useEffect(() => {
     getSelected();
-    console.log("호출");
   }, []);
 
   return { selectedLectures, isSelected, addSelected, deleteSelected };

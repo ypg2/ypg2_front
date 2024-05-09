@@ -36,7 +36,6 @@ export const fetchGetScheduled = async () => {
 
 export const fetchUpdateScheduled = async (data: UpdateProps) => {
   console.log(data);
-
   await authInstance.put(`scheduled-lectures/${data.lectureID}`, data);
 };
 

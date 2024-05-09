@@ -24,8 +24,8 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
   const queryClient = useQueryClient();
 
   const handleClick = async (event: any) => {
-    const minute = event.target.value;
     try {
+      const minute = event.target.value;
       const [startAt, endAt] = formatStartEnd(dropData, minute);
       const data = {
         startAt: startAt,
@@ -33,16 +33,15 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
         weekDayID: dropData.weekDayID,
         lectureID: dropData.lectureID,
       };
-      console.log(data);
       await fetchUpdateScheduled(data);
       queryClient.invalidateQueries("schedules");
       onClose();
-    } catch (error: any) {
+    } catch (error) {
       alert(error);
       onClose();
     }
   };
-
+  console.log();
   return (
     <>
       {isOpen && (
