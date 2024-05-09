@@ -6,7 +6,7 @@ import { UpdateProps } from "../components/TableContents";
 export const fetchAddScheduled = async (data: ScheduledLecture) => {
   try {
     const response = await authInstance.post(
-      `scheduled-lectures/${data.lectureID}`,
+      `/scheduled-lectures/${data.lectureID}`,
       data
     );
     return response.data.message;
@@ -30,15 +30,10 @@ export const fetchAddScheduled = async (data: ScheduledLecture) => {
 };
 
 export const fetchGetScheduled = async () => {
-  const response = await authInstance.get(`scheduled-lectures`);
-  return response ? response.data.data : [];
-};
-
-export const fetchUpdateScheduled = async (data: UpdateProps) => {
-  console.log(data);
-  await authInstance.put(`scheduled-lectures/${data.lectureID}`, data);
-};
-
-export const fetchDeleteScheduled = async (lectureID: number) => {
-  await authInstance.delete(`scheduled-lectures/${lectureID}`);
+  try {
+    const response = await authInstance.get(`/scheduled-lectures`);
+    return response ? response.data.data : [];
+  } catch (error) {
+    return [];
+  }
 };

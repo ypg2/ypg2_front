@@ -1,10 +1,8 @@
-import { tr } from "@faker-js/faker";
-import { fetchScheduledLectures } from "../api/schedule.api";
-import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
-import { useQuery } from "react-query";
-import { useAuthStore } from "../store/authStore";
 import { useEffect, useState } from "react";
+import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
 import { fetchGetScheduled } from "../api/scheduled.api";
+import { useAuthStore } from "../store/authStore";
+import { useQuery } from "react-query";
 
 export const useSchedules = () => {
   const { isLoggedIn } = useAuthStore();
@@ -21,10 +19,10 @@ export const useSchedules = () => {
   );
 
   useEffect(() => {
-    if (data) {
+    if (isLoggedIn && data) {
       setScheduledLectures(formatScheduled(data));
     }
-  }, [data]);
+  }, []);
 
   return { scheduledLectures, isScheduled };
 };
