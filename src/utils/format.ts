@@ -68,6 +68,7 @@ export const formatStartEnd = (dropData: UpdateProps, minute: string) => {
       endMinute = 30;
     }
   }
+
   const startAt =
     String(startHour).padStart(2, "0") +
     ":" +
@@ -77,7 +78,7 @@ export const formatStartEnd = (dropData: UpdateProps, minute: string) => {
 
   const checkEndAt = endAt.split(`:`);
   if (
-    Number(checkEndAt[0]) >= 24 ||
+    Number(checkEndAt[0]) > 24 ||
     (Number(checkEndAt[0]) === 24 && Number(checkEndAt[1]) === 30)
   ) {
     throw new Error("스케줄 가능한 시간을 지켜주세요.");
