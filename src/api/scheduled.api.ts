@@ -37,3 +37,11 @@ export const fetchGetScheduled = async () => {
     return [];
   }
 };
+
+export const fetchDeleteScheduled = async (lectureID: number) => {
+  await authInstance.delete(`/scheduled-lectures/${lectureID}`);
+};
+
+export const fetchUpdateScheduled = async (data: UpdateProps) => {
+  await authInstance.put(`/scheduled-lectures/${data.lectureID}`, data);
+};
