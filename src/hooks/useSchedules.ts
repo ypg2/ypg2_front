@@ -22,7 +22,7 @@ export const useSchedules = () => {
     if (isLoggedIn && data) {
       setScheduledLectures(formatScheduled(data));
     }
-  }, []);
+  }, [data]);
 
   return { scheduledLectures, isScheduled };
 };
