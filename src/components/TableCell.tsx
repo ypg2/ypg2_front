@@ -7,6 +7,7 @@ import {
 import React, { useContext } from "react";
 import { DragAndDropContext } from "../context/DragAndDrop";
 import { isCanPaintSchedule } from "../utils/scheduling";
+import { randomColor } from "../style/theme";
 
 export interface Props {
   scheduledLectures: ScheduledLectureFormat[];
@@ -17,6 +18,7 @@ export interface Props {
 interface TableCellProps {
   howlong: number;
   startpoint: number;
+  backgroundColor: string;
 }
 
 export default function TableCell({
@@ -54,6 +56,7 @@ export default function TableCell({
               startpoint={calculateStartPoint(lecture)}
               draggable={true}
               onDragStart={handleDragStartWrapper(lecture)}
+              backgroundColor={randomColor()}
             >
               {lecture.title}
             </TableCellStyled>
@@ -67,7 +70,7 @@ export default function TableCell({
 const TableCellStyled = styled.div<TableCellProps>`
   width: 100%;
   position: absolute;
-  background-color: gainsboro;
+  background-color: ${(props) => props.backgroundColor};
   height: ${(props) => 50 * props.howlong}px;
   top: ${(props) => props.startpoint}%;
   right: 0;

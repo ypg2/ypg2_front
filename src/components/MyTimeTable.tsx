@@ -53,7 +53,7 @@ const MyTimeTableStyle = styled.div`
     background-color: aliceblue;
   }
   th {
-    background-color: #f2f2f2;
+    background-color: ${theme.color.background};
   }
   p {
     margin: 0;
