@@ -1,3 +1,5 @@
+import { ScheduledLectureFormat } from "./format";
+
 export const weekDays = [
   {
     id: 1,
@@ -40,4 +42,29 @@ export const generateTimeOptions = (startHour: number, endHour: number) => {
     times.push(timeString);
   }
   return times;
+};
+
+export const isCanPaintSchedule = (
+  lecture: ScheduledLectureFormat,
+  dayIndex: number,
+  hourIndex: number,
+  dragingPoint: number[]
+) => {
+  const [dragingDayIndex, dragingHourIndex] = dragingPoint;
+  const lectureStartHour = lecture.startHour;
+  const lectureEndHour = lecture.endHour;
+  const lectureWeekDayID = lecture.weekDayID;
+
+  if (lectureStartHour === hourIndex + 6 && lectureWeekDayID === dayIndex + 1) {
+    if (
+      dragingDayIndex + 1 === lectureWeekDayID &&
+      dragingHourIndex + 6 >= lectureStartHour &&
+      dragingHourIndex + 6 <= lectureEndHour
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  return false;
 };
