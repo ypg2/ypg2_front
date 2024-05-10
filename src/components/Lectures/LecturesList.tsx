@@ -19,10 +19,18 @@ export default function LecturesList({ lectures }: Props) {
   return (
     <LecturesListStyle view={view}>
       <div className="grid">
-        <Button scheme="primary" size="small" onClick={() => setView("column")}>
+        <Button
+          scheme={view === "column" ? "primary" : "normal"}
+          size="small"
+          onClick={() => setView("column")}
+        >
           2줄
         </Button>
-        <Button scheme="primary" size="small" onClick={() => setView("row")}>
+        <Button
+          scheme={view === "row" ? "primary" : "normal"}
+          size="small"
+          onClick={() => setView("row")}
+        >
           4줄
         </Button>
       </div>

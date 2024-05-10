@@ -5,3 +5,7 @@ export interface Lecture {
   lecturer: string;
   introduction: string;
 }
+
+export interface LectureDetail extends Lecture {
+  categories: string[];
+}

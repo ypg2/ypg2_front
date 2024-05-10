@@ -3,15 +3,19 @@ import { useSearchParams } from "react-router-dom";
 import Button from "../common/Button";
 
 export default function LecturesLimit() {
-  // 여기서 이제 컨트롤하는거지
-  const [searchParams, setSearchPrams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const limitPointArr = ["4", "8", "12"];
-  searchParams.set("limit", "4");
+
+  if (!searchParams.get("limit")) {
+    searchParams.set("limit", "4");
+    setSearchParams(searchParams);
+  }
 
   const handleClickLimit = (limitPoint: string) => {
-    searchParams.set("limit", limitPoint);
-    searchParams.set("page", "1");
-    setSearchPrams(searchParams);
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("limit", limitPoint);
+    newSearchParams.set("page", "1");
+    setSearchParams(newSearchParams);
   };
 
   return (
@@ -19,7 +23,11 @@ export default function LecturesLimit() {
       {limitPointArr.map((limitPoint, i) => (
         <Button
           key={i}
-          scheme="primary"
+          scheme={
+            searchParams.get("limit") === String(limitPoint)
+              ? "primary"
+              : "normal"
+          }
           size="small"
           onClick={() => handleClickLimit(limitPoint)}
         >
