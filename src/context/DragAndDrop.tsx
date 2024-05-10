@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { debounce } from "lodash";
 
 interface Props {
   children: React.ReactNode;
@@ -33,7 +34,6 @@ interface State {
   onClose: () => void;
   dropData: UpdateProps;
   dropDataDelete: DeleteProps;
-  isDraging: boolean;
   dragingPoint: number[];
 }
 
@@ -75,7 +75,7 @@ export const DragAndDropProvider = ({ children }: Props) => {
   const [dropData, setDropData] = useState<UpdateProps>(drops);
   const [dropDataDelete, setDropDataDelete] =
     useState<DeleteProps>(dropsDelete);
-  const [dragingPoint, setDragingPoint] = useState<number[]>([]);
+  const [dragingPoint, setDragingPoint] = useState<number[]>([-1, -1]);
   const [isOpen, setIsOpen] = useState(false);
   const onOpen = () => {
     setIsOpen(true);
@@ -83,7 +83,6 @@ export const DragAndDropProvider = ({ children }: Props) => {
   const onClose = () => {
     setIsOpen(false);
   };
-  const [isDraging, setIsDraging] = useState(false);
   const [] = useState();
   const handleDragStart =
     (data: UpdateProps) => (event: React.DragEvent<HTMLDivElement>) => {
@@ -100,7 +99,6 @@ export const DragAndDropProvider = ({ children }: Props) => {
       .split(`,`)
       .map((item) => Number(item));
     setDragingPoint(dragPoint);
-    setIsDraging(true);
   };
 
   const handleDrop =
@@ -112,7 +110,6 @@ export const DragAndDropProvider = ({ children }: Props) => {
       getDropData.startAt = startAt;
       getDropData.weekDayID = dayIndex;
       setDropData(getDropData);
-      setIsDraging(false);
       setDragingPoint([-1, -1]);
     };
 
@@ -133,7 +130,6 @@ export const DragAndDropProvider = ({ children }: Props) => {
         onClose,
         dropData,
         dropDataDelete,
-        isDraging,
         dragingPoint,
       }}
     >
