@@ -72,3 +72,17 @@ export const theme: Theme = {
     },
   },
 };
+
+export function randomColor() {
+  const colors = [
+    "#f8d7da",
+    "#fbeee6",
+    "#fff5cc",
+    "#f1f7e9",
+    "#e6f3ff",
+    "#e0ebf5",
+    "#f5e6ff",
+  ];
+  const randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+}
