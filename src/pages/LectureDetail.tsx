@@ -5,6 +5,7 @@ import useLectureDetail from "../hooks/useLectureDetail";
 import { useParams } from "react-router-dom";
 import { Loading } from "../components/common/Loading";
 import { LecturesBtn } from "../components/Lectures/LecturesBtn";
+import { theme } from "../style/theme";
 
 export default function LectureDetail() {
   const { id } = useParams();
@@ -29,9 +30,17 @@ export default function LectureDetail() {
         <div className="info">
           <h1>{lecture.title}</h1>
           <p className="lecturer">{lecture.lecturer} 강사님</p>
+          <div className="categories">
+            {lecture.categories.map((category, i) => (
+              <span key={i} className="category">
+                #{category}
+              </span>
+            ))}
+          </div>
           <LecturesBtn lecture={lecture} />
         </div>
       </header>
+      <h2>강의 소개</h2>
       <div className="content">{lecture.introduction}</div>
     </LectureDetailStyle>
   );
@@ -50,6 +59,7 @@ const LectureDetailStyle = styled.div`
     img {
       width: 100%;
       height: auto;
+      border-radius: ${theme.borderRadius.default};
     }
   }
 
@@ -58,5 +68,18 @@ const LectureDetailStyle = styled.div`
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    .categories {
+      .category {
+        display: inline-block;
+        box-sizing: border-box;
+        white-space: nowrap;
+        background-color: ${theme.color.background};
+        border: 1px solid ${theme.color.background};
+        border-radius: ${theme.borderRadius.default};
+        margin: 0.4rem;
+        padding: 0.5rem;
+      }
+    }
   }
 `;

@@ -44,7 +44,7 @@ const HeaderStyle = styled.header`
   width: 100%;
   margin: 0 auto;
   max-width: ${theme.layout.width.large};
-  border-bottom: 1px solid ${theme.color.background};
+  border-bottom: 1px solid ${theme.color.border};
   padding: 20px 0;
   display: flex;
   justify-content: space-between;

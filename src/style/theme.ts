@@ -1,22 +1,10 @@
-export type HeadingSize = "large" | "medium" | "small";
-export type ColorKey =
-  | "primary"
-  | "secondary"
-  | "third"
-  | "background"
-  | "border"
-  | "text";
+export type ColorKey = "primary" | "background" | "border" | "text";
 export type ButtonSize = "large" | "medium" | "small";
 export type ButtonScheme = "primary" | "normal" | "like";
 export type LayoutWidth = "large" | "medium" | "small";
 
 interface Theme {
   color: Record<ColorKey, string>;
-  heading: {
-    [key in HeadingSize]: {
-      fontSize: string;
-    };
-  };
   button: {
     [key in ButtonSize]: {
       fontSize: string;
@@ -41,22 +29,9 @@ interface Theme {
 export const theme: Theme = {
   color: {
     primary: "#121254",
-    background: "lightgray",
-    secondary: "#5f5f5f",
-    third: "green",
-    border: "grey",
+    background: "aliceblue",
+    border: "lightgrey",
     text: "black",
-  },
-  heading: {
-    large: {
-      fontSize: "2rem",
-    },
-    medium: {
-      fontSize: "1.5rem",
-    },
-    small: {
-      fontSize: "1rem",
-    },
   },
   button: {
     large: {
@@ -83,7 +58,7 @@ export const theme: Theme = {
     },
     like: {
       color: "white",
-      backgroundColor: "coral",
+      backgroundColor: "aliceblue",
     },
   },
   borderRadius: {

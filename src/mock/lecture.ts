@@ -8,5 +8,6 @@ export const mockLectureData: Lecture[] = Array.from({ length: 50 }).map(
     lecturer: `${faker.person.lastName()}${faker.person.firstName()}`,
     introduction: faker.lorem.paragraph(),
     imgURL: `https://picsum.photos/id/${idx}/600/600`,
+    categories: [faker.lorem.words()],
   })
 );

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { fetchLectureDetail } from "../api/lecture.api";
-import { Lecture } from "../models/lecture.model";
+import { LectureDetail } from "../models/lecture.model";
 
 export default function useLectureDetail(id: number) {
-  const [lecture, setLecture] = useState<Lecture>();
+  const [lecture, setLecture] = useState<LectureDetail>();
 
   useEffect(() => {
-    fetchLectureDetail(id).then((lecture: Lecture | undefined) => {
+    fetchLectureDetail(id).then((lecture: LectureDetail | undefined) => {
       if (lecture) {
         setLecture(lecture);
       }
