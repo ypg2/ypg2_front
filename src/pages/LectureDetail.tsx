@@ -77,6 +77,7 @@ const LectureDetailStyle = styled.div`
         background-color: ${theme.color.background};
         border: 1px solid ${theme.color.background};
         border-radius: ${theme.borderRadius.default};
+        box-shadow: 0 4px 8px ${theme.color.border};
         margin: 0.4rem;
         padding: 0.5rem;
       }

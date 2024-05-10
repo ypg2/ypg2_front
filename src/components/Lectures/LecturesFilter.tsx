@@ -24,7 +24,11 @@ export default function LecturesFiliter() {
         <Button
           key={i}
           size="small"
-          scheme="normal"
+          scheme={
+            (searchParams.get(QUERYSTRING.CATEGORY_ID) || "0") === String(i)
+              ? "primary"
+              : "normal"
+          }
           onClick={() => handleClickCategory(i)}
         >
           {categoryName}
