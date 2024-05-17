@@ -73,7 +73,7 @@ export const theme: Theme = {
   },
 };
 
-export function randomColor() {
+export function randomColor(dayIndex: number) {
   const colors = [
     "#f8d7da",
     "#fbeee6",
@@ -83,6 +83,5 @@ export function randomColor() {
     "#e0ebf5",
     "#f5e6ff",
   ];
-  const randomIndex = Math.floor(Math.random() * colors.length);
-  return colors[randomIndex];
+  return colors[dayIndex];
 }

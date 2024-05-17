@@ -26,10 +26,7 @@ export default function TableCell({
   hourIndex,
   dayIndex,
 }: Props) {
-  // dayIndex,hourIndex,dragingPoint를 통해 해결할 수 있을듯
-  // dayIndex가 동일하고 hourIndex에서 howLong만큼 범위의 내에 있으면 해당 TableCellStyled는 안보이게함
   const { handleDragStart, dragingPoint } = useContext(DragAndDropContext);
-
   const handleDragStartWrapper = (lecture: ScheduledLectureFormat) => {
     return (event: React.DragEvent<HTMLDivElement>) => {
       handleDragStart({
@@ -43,7 +40,6 @@ export default function TableCell({
   if (!scheduledLectures) {
     return null;
   }
-  // 조건이 해당 isCanPaintSchedule
 
   return (
     <>
@@ -56,7 +52,7 @@ export default function TableCell({
               startpoint={calculateStartPoint(lecture)}
               draggable={true}
               onDragStart={handleDragStartWrapper(lecture)}
-              backgroundColor={randomColor()}
+              backgroundColor={randomColor(dayIndex)}
             >
               {lecture.title}
             </TableCellStyled>
