@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import Button from "./common/Button";
-import { Modal } from "./common/Modal";
+
 import React from "react";
+import { Modal } from "../common/Modal";
+import Button from "../common/Button";
 
 interface Props {
   isOpen: boolean;

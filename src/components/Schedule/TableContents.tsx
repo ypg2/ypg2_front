@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import { ScheduledLectureFormat, formatStartEnd } from "../utils/format";
-import TableCell from "./TableCell";
-import { DragAndDropContext } from "../context/DragAndDrop";
-import { fetchUpdateScheduled } from "../api/scheduled.api";
+
 import { useQueryClient } from "react-query";
 import ScheduleModal from "./ScheduleModal";
+import { DragAndDropContext } from "../../context/DragAndDrop";
+import { ScheduledLectureFormat, formatStartEnd } from "../../utils/format";
+import { fetchUpdateScheduled } from "../../api/scheduled.api";
+import TableCell from "./TableCell";
 
 interface Props {
   schedule: string[][];

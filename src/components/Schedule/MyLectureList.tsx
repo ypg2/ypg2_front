@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import { theme } from "../style/theme";
-import { Modal } from "./common/Modal";
-import { useState } from "react";
-import { Lecture } from "../models/lecture.model";
-import { useSelected } from "../hooks/useSelected";
-import { fetchLectureDetail } from "../api/lecture.api";
-import Scheduling from "./Scheduling";
-import { mockLectureData } from "../mock/lecture";
-import Button from "./common/Button";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useSelected } from "../../hooks/useSelected";
+import { mockLectureData } from "../../mock/lecture";
+import { fetchLectureDetail } from "../../api/lecture.api";
+import { Lecture } from "../../models/lecture.model";
+import Button from "../common/Button";
+import { Modal } from "../common/Modal";
+import Scheduling from "./Scheduling";
+import { theme } from "../../style/theme";
 
 export default function MyLectureList() {
   const navigate = useNavigate();

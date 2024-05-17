@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import { Lecture } from "../models/lecture.model";
-import { generateTimeOptions, weekDays } from "../utils/scheduling";
-import Button from "./common/Button";
-import { useState } from "react";
-import { useSelected } from "../hooks/useSelected";
-import { ScheduledLecture } from "../models/scheduled.model";
-import { fetchAddScheduled, fetchGetScheduled } from "../api/scheduled.api";
+
 import { useQueryClient } from "react-query";
+import { useSelected } from "../../hooks/useSelected";
+import { useState } from "react";
+import { generateTimeOptions, weekDays } from "../../utils/scheduling";
+import { ScheduledLecture } from "../../models/scheduled.model";
+import { fetchAddScheduled } from "../../api/scheduled.api";
+import Button from "../common/Button";
+import { Lecture } from "../../models/lecture.model";
 
 interface Props {
   lecture: Lecture;

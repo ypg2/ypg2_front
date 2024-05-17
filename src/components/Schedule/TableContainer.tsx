@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { DragAndDropContext } from "../context/DragAndDrop";
+
 import { useContext, useEffect } from "react";
 
 import { useQueryClient } from "react-query";
-import { fetchDeleteScheduled } from "../api/scheduled.api";
-import { theme } from "../style/theme";
+import { DragAndDropContext } from "../../context/DragAndDrop";
+import { fetchDeleteScheduled } from "../../api/scheduled.api";
+import { theme } from "../../style/theme";
 
 interface Props {
   children: React.ReactNode;

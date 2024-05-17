@@ -3,11 +3,11 @@ import {
   ScheduledLectureFormat,
   calculateHowLong,
   calculateStartPoint,
-} from "../utils/format";
-import React, { useContext } from "react";
-import { DragAndDropContext } from "../context/DragAndDrop";
-import { isCanPaintSchedule } from "../utils/scheduling";
-import { randomColor } from "../style/theme";
+} from "../../utils/format";
+import { useContext } from "react";
+import { DragAndDropContext } from "../../context/DragAndDrop";
+import { isCanPaintSchedule } from "../../utils/scheduling";
+import { randomColor } from "../../style/theme";
 
 export interface Props {
   scheduledLectures: ScheduledLectureFormat[];
