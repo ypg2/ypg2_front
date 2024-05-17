@@ -34,7 +34,6 @@ export default function TableContainer({ children }: Props) {
           <FaRegTrashCan />
         </h2>
       </div>
-
       <table>{children}</table>
     </StyledTableContainer>
   );

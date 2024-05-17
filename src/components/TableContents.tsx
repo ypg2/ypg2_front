@@ -74,9 +74,6 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
                     ? "draging"
                     : "hold"
                 }
-
-                // 여기서 어떤 값이 true면? hourIndex,dayIndex와 동일하면
-                // 어떤 속성값을 주고 해당 속성값이 있으면? styled-components에서 조절
               >
                 <TableCell
                   scheduledLectures={
