@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import { theme } from "../../style/theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import { AiOutlineCalendar } from "react-icons/ai";
 
 export default function Header() {
   const { isLoggedIn, storeLogout } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    storeLogout();
+    navigate("/");
+  };
 
   return (
     <HeaderStyle>
@@ -22,7 +28,7 @@ export default function Header() {
             <li>
               <Link to="/my-lectures">내 강의</Link>
             </li>
-            <li onClick={storeLogout}>로그아웃</li>
+            <li onClick={handleLogout}>로그아웃</li>
           </ul>
         )}
         {!isLoggedIn && (
