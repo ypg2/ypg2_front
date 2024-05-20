@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import MyLectureList from "../components/MyLectureList";
-import MyTimeTable from "../components/MyTimeTable";
+
 import { DragAndDropProvider } from "../context/DragAndDrop";
+import MyTimeTable from "../components/Schedule/MyTimeTable";
+import MyLectureList from "../components/Schedule/MyLectureList";
 
 export default function MyLectures() {
   return (

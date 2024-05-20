@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ScheduledLecture } from "../models/scheduled.model";
 import { authInstance } from "./http";
-import { UpdateProps } from "../components/TableContents";
+import { UpdateProps } from "../components/Schedule/TableContents";
 
 export const fetchAddScheduled = async (data: ScheduledLecture) => {
   try {

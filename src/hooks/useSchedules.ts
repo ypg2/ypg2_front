@@ -3,6 +3,7 @@ import { ScheduledLectureFormat, formatScheduled } from "../utils/format";
 import { fetchGetScheduled } from "../api/scheduled.api";
 import { useAuthStore } from "../store/authStore";
 import { useQuery } from "react-query";
+import { SCHEDULE_CACHE_KEY } from "../constants/cachekey";
 
 export const useSchedules = () => {
   const { isLoggedIn } = useAuthStore();
@@ -14,7 +15,7 @@ export const useSchedules = () => {
     return scheduledLectures?.some((lecture) => lecture.lectureID === id);
   };
   const { data, isLoading } = useQuery<ScheduledLectureFormat[]>(
-    "schedules",
+    SCHEDULE_CACHE_KEY,
     fetchGetScheduled
   );
 

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import { Schedule } from "./MyTimeTable";
-import { days } from "../utils/timeTable";
+import { days } from "../../utils/timeTable";
 
 export default function TableHeader() {
   return (

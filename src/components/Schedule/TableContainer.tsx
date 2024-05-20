@@ -7,6 +7,8 @@ import { useQueryClient } from "react-query";
 import { DragAndDropContext } from "../../context/DragAndDrop";
 import { fetchDeleteScheduled } from "../../api/scheduled.api";
 import { theme } from "../../style/theme";
+import { SCHEDULE_CACHE_KEY } from "../../constants/cachekey";
+import { SCHEDULE_DELETE_ERROR } from "../../constants/alertmention";
 
 interface Props {
   children: React.ReactNode;
@@ -19,8 +21,8 @@ export default function TableContainer({ children }: Props) {
   useEffect(() => {
     const deleteSchedule = async () => {
       await fetchDeleteScheduled(dropDataDelete.lectureID);
-      queryClient.invalidateQueries("schedules");
-      alert("삭제되었습니다.");
+      queryClient.invalidateQueries(SCHEDULE_CACHE_KEY);
+      alert(SCHEDULE_DELETE_ERROR.REMOVE);
     };
     if (dropDataDelete.lectureID) {
       deleteSchedule();

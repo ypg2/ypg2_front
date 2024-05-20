@@ -8,6 +8,8 @@ import { ScheduledLecture } from "../../models/scheduled.model";
 import { fetchAddScheduled } from "../../api/scheduled.api";
 import Button from "../common/Button";
 import { Lecture } from "../../models/lecture.model";
+import { SCHEDULE_ADD_ERROR } from "../../constants/alertmention";
+import { SCHEDULE_CACHE_KEY } from "../../constants/cachekey";
 
 interface Props {
   lecture: Lecture;
@@ -29,7 +31,7 @@ export default function Scheduling({ lecture, onClose }: Props) {
     const startDateTime = new Date(`${baseDate}T${startTime}:00`);
     const endDateTime = new Date(`${baseDate}T${endTime}:00`);
     if (startDateTime >= endDateTime) {
-      alert("끝나는 시간은 시작 시간보다 늦어야 합니다.");
+      alert(SCHEDULE_ADD_ERROR.FORWORD);
       return;
     }
 
@@ -45,7 +47,7 @@ export default function Scheduling({ lecture, onClose }: Props) {
         };
         fetchAddScheduled(data).then((message) => {
           alert(message);
-          queryClient.invalidateQueries(`schedules`);
+          queryClient.invalidateQueries(SCHEDULE_CACHE_KEY);
           onClose();
         });
       }
