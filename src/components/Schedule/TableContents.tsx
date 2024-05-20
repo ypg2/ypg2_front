@@ -1,10 +1,12 @@
 import { useContext } from "react";
-import { ScheduledLectureFormat, formatStartEnd } from "../utils/format";
-import TableCell from "./TableCell";
-import { DragAndDropContext } from "../context/DragAndDrop";
-import { fetchUpdateScheduled } from "../api/scheduled.api";
+
 import { useQueryClient } from "react-query";
 import ScheduleModal from "./ScheduleModal";
+import { DragAndDropContext } from "../../context/DragAndDrop";
+import { ScheduledLectureFormat, formatStartEnd } from "../../utils/format";
+import { fetchUpdateScheduled } from "../../api/scheduled.api";
+import TableCell from "./TableCell";
+import { SCHEDULE_CACHE_KEY } from "../../constants/cachekey";
 
 interface Props {
   schedule: string[][];
@@ -29,6 +31,7 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
   } = useContext(DragAndDropContext);
   const [dragingDayIndex, dragingHourIndex] = dragingPoint;
   const queryClient = useQueryClient();
+
   const handleClick = async (event: any) => {
     try {
       const minute = event.target.value;
@@ -40,7 +43,7 @@ export default function TableContents({ schedule, scheduledLectures }: Props) {
         lectureID: dropData.lectureID,
       };
       await fetchUpdateScheduled(data);
-      queryClient.invalidateQueries("schedules");
+      queryClient.invalidateQueries(SCHEDULE_CACHE_KEY);
       onClose();
     } catch (error) {
       alert(error);

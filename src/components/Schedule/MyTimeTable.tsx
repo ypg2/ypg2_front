@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { theme } from "../style/theme";
-import { days, hours, initializeSchedule } from "../utils/timeTable";
-import { useSchedules } from "../hooks/useSchedules";
+
 import TableHeader from "./TableHeader";
 import TableContainer from "./TableContainer";
 import TableContents from "./TableContents";
+import { useSchedules } from "../../hooks/useSchedules";
+import { initializeSchedule } from "../../utils/timeTable";
+import { theme } from "../../style/theme";
 
 export type Schedule = {
   [day: string]: string[];

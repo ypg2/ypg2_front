@@ -1,5 +1,3 @@
-import { Schedule } from "../components/MyTimeTable";
-
 export const days = ["월", "화", "수", "목", "금", "토", "일"];
 export const initializeSchedule = () => {
   return Array.from({ length: 18 }, () => Array(7).fill(null));
